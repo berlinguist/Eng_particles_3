@@ -1,0 +1,509 @@
+.AudioPresentation-audio {
+	margin-left:100px;
+	margin-right:auto;
+	width:25%;
+}
+
+
+.Caption-caption {
+	margin-left:100px;
+	margin-right:auto;
+	width:90%;
+}
+
+
+.CommentBoxQuestionSide-CommentBoxQuestionSide {
+	display: none;
+	width: 400px;
+}
+.CommentBoxQuestionSide-question {
+    margin-left: 0;
+    padding-left: 0;
+}
+.CommentBoxQuestionSide-instructions-text {
+    font-style: italic;
+    clear: left;
+    padding-top: 1em;
+    font-size: small;
+}
+.CommentBoxQuestionSide-target-text {
+    clear: left;
+    padding-top: 1em;
+}
+li.CommentBoxQuestionSide-normal-answer {
+    text-align: left;
+    cursor: pointer;
+    padding-bottom: 1em;
+}
+li:hover.CommentBoxQuestionSide-normal-answer {
+    cursor: pointer;
+}
+li.CommentBoxQuestionSide-scale-box {
+    float: left;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    border: 1px #9ea4b1 solid;
+    width: 3em;
+    height: 3em;
+    padding-top: 0.5em;
+    text-align: center;
+}
+.CommentBoxQuestionSide-scale-comment-box {
+    float: left;
+    list-style: none;
+    margin-left: 0em;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    padding-top: 0.5em;
+    text-align: center;
+    font-style: italic;
+}
+li.CommentBoxQuestionSide-scale-box a {
+    text-decoration: none; 
+    display: block;
+    vertical-align: middle;
+}
+li.CommentBoxQuestionSide-scale-box a:hover {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+span.CommentBoxQuestionSide-fake-link {
+    color: blue;
+    cursor: pointer;
+}
+span:hover.CommentBoxQuestionSide-fake-link {
+    cursor: pointer;
+}
+
+
+.DashedSentence-sentence {
+     background-color: white;
+     clear: both;
+}
+.DashedSentence-question {
+     padding-left: 0.6em;
+}
+.DashedSentence-rating {
+    padding-left: 0.6em;
+}
+.DashedSentence-sentence {
+    line-height: 400%;
+}
+.DashedSentence-ospan {
+     border-bottom: 1px solid #9ea4b1;
+     background-color: white;
+}
+.DashedSentence-ispan {
+     visibility: hidden;
+}
+.DashedSentence-practice-text {
+    color: blue; 
+    font-weight: bold;
+}
+.DashedSentence-iphone-next {
+    clear: both;
+    background: black;
+    color: white;
+    foreground: white;
+    text-align: center;
+    display: table;
+    font-size: 20px;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: bold;
+    -webkit-border-radius: 5px;
+}
+
+
+.FlashSentence-flashed-sentence {
+	margin-left:auto;
+	margin-right:auto;
+	width:80%;
+	margin-top: -30px;
+}
+
+
+.Form-error-text {
+    color: red;
+    font-weight: bold;
+}
+
+
+.FreeTextQuestion-question {
+    margin-left: 100px;
+    margin-right: auto;
+    width: 600px;
+
+}
+.FreeTextQuestion-instructions-text {
+    font-style: italic;
+    clear: left;
+    padding-left: 120px;
+    padding-top: 10px;
+    font-size: small;
+}
+li.FreeTextQuestion-normal-answer {
+    text-align: left;
+    cursor: pointer;
+    padding-bottom: 1em;
+}
+li:hover.FreeTextQuestion-normal-answer {
+    cursor: pointer;
+}
+li.FreeTextQuestion-scale-box {
+    float: left;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    border: 1px #9ea4b1 solid;
+    width: 2em;
+    height: 2em;
+    padding-top: 0.5em;
+    text-align: center;
+}
+.FreeTextQuestion-scale-comment-box {
+    float: left;
+    list-style: none;
+    margin-left: 0em;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    padding-top: 0.5em;
+    text-align: center;
+    font-style: italic;
+}
+li.FreeTextQuestion-scale-box a {
+    text-decoration: none; 
+    display: block;
+    vertical-align: middle;
+}
+li.FreeTextQuestion-scale-box a:hover {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+span.FreeTextQuestion-fake-link {
+    color: blue;
+    cursor: pointer;
+}
+span:hover.FreeTextQuestion-fake-link {
+    cursor: pointer;
+}
+.FreeTextQuestion-question-box {
+	outline: none;
+	resize: none;
+	width: 300px;
+	height: 50px;
+}
+.FreeTextQuestion-nextbutton {
+	color: white;
+	background-color: blue;
+	padding: 5px;
+	width: 50px;
+}
+
+
+.Message-message {
+    font-size: medium;
+    width: 40em;
+}
+.Message-continue-link { text-decoration: none; color: blue; }
+.Message-continue-link:hover { text-decoration: underline; color: blue; }
+.Message-continue-link:visited { color: blue; }
+
+
+.PictureDisplay-picture {
+	padding: 10px;
+	height: 600px;
+	width: 800px;
+	margin-top: -100px;
+}
+
+
+.Question-question {
+    margin-left: 100px;
+    margin-right: auto;
+}
+.Question-instructions-text {
+    font-style: italic;
+    clear: left;
+    padding-left: 120px;
+    padding-top: 10px;
+    font-size: small;
+}
+li.Question-normal-answer {
+    text-align: left;
+    cursor: pointer;
+    padding-bottom: 1em;
+}
+li:hover.Question-normal-answer {
+    cursor: pointer;
+}
+li.Question-scale-box {
+    float: left;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    border: 1px #9ea4b1 solid;
+    width: 2em;
+    height: 2em;
+    padding-top: 0.5em;
+    text-align: center;
+}
+.Question-scale-comment-box {
+    float: left;
+    list-style: none;
+    margin-left: 0em;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    padding-top: 0.5em;
+    text-align: center;
+    font-style: italic;
+}
+li.Question-scale-box a {
+    text-decoration: none; 
+    display: block;
+    vertical-align: middle;
+}
+li.Question-scale-box a:hover {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+span.Question-fake-link {
+    color: blue;
+    cursor: pointer;
+}
+span:hover.Question-fake-link {
+    cursor: pointer;
+}
+
+
+.QuestionB-question {
+    margin-left: 100px;
+    margin-right: auto;
+	margin-top: -2.5em;
+	width: 650px;
+	border: 1px solid gray;
+	padding: 10px;
+	
+}
+.QuestionB-instructions-text {
+    font-style: italic;
+    clear: left;
+    padding-left: 120px;
+    padding-top: 10px;
+    font-size: small;
+}
+li.QuestionB-normal-answer {
+    text-align: left;
+    cursor: pointer;
+    padding-bottom: 1em;
+}
+li:hover.QuestionB-normal-answer {
+    cursor: pointer;
+}
+li.QuestionB-scale-box {
+    float: left;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    border: 1px #9ea4b1 solid;
+    width: 2em;
+    height: 2em;
+    padding-top: 0.5em;
+    text-align: center;
+}
+.QuestionB-scale-comment-box {
+    float: left;
+    list-style: none;
+    margin-left: 0em;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    padding-top: 0.5em;
+    text-align: center;
+    font-style: italic;
+}
+li.QuestionB-scale-box a {
+    text-decoration: none; 
+    display: block;
+    vertical-align: middle;
+}
+li.QuestionB-scale-box a:hover {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+span.QuestionB-fake-link {
+    color: blue;
+    cursor: pointer;
+}
+span:hover.QuestionB-fake-link {
+    cursor: pointer;
+}
+
+
+.QuestionSide-QuestionSide {
+    margin-left: 100px;
+	width: 650px;
+	border: 1px solid gray;
+	padding: 10px;
+}
+.QuestionSide-instructions-text {
+    font-style: italic;
+    clear: right;
+    padding-top: 1em;
+    font-size: small;
+}
+.QuestionSide-target-text {
+    clear: left;
+    padding-top: 1em;
+}
+li.QuestionSide-normal-answer {
+    text-align: left;
+    cursor: pointer;
+    padding-bottom: 1em;
+}
+li:hover.QuestionSide-normal-answer {
+    cursor: pointer;
+}
+li.QuestionSide-scale-box {
+    float: left;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    border: 1px #9ea4b1 solid;
+    width: 2em;
+    height: 2em;
+    padding-top: 0.5em;
+    text-align: center;
+}
+.QuestionSide-scale-comment-box {
+    float: left;
+    list-style: none;
+    margin-left: 0em;
+    padding-left: 0;
+    margin-right: 1em;
+    padding-right: 0;
+    padding-top: 0.5em;
+    text-align: center;
+    font-style: italic;
+}
+li.QuestionSide-scale-box a {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+li.QuestionSide-scale-box a:hover {
+    text-decoration: none;
+    display: block;
+    vertical-align: middle;
+}
+span.QuestionSide-fake-link {
+    color: blue;
+    cursor: pointer;
+}
+span:hover.QuestionSide-fake-link {
+    cursor: pointer;
+}
+.QuestionSide-QuestionSide-timeout {
+	color: red;
+	text-size: large;
+}
+.QuestionSide-timer {
+	margin-left: 50px;
+	border: 1px solid red;
+	padding: 10px;
+}
+
+
+.Separator-next-item-failure-message {
+    color: red;
+}
+.Separator-next-item-message {
+    width: 625px;
+	font-weight: bold;
+	margin-top: 2em;
+}
+
+
+body {
+    color: black;
+    background-color: white;
+    margin-left: 0;
+    margin-top: 0em;
+}
+
+.lindent { 
+	margin-left: 5em; 
+}
+.sending-results {
+    font-weight: bold;
+    font-size: medium;
+}
+div.bar-container {
+    border: 1px solid;
+    border-color: #9ea4b1;
+    background-color: white;
+}
+div.bar {
+    background-color: blue;
+}
+p.progress-text {
+    padding-top: 0.5em;
+    margin-top: 0;
+    margin-bottom: 2em;
+    font-style: italic;
+    font-size: small;
+}
+p.practice-box {
+    color: black;
+    height: 3em;
+    padding-bottom: 1em;
+    width: 575px;
+/* 
+    font-size: small;
+ */
+}
+span.retry {
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+span.retry:hover {
+    text-decoration: underline;
+}
+span.retry:visited {
+    color: blue;
+}
+
+.hidden {
+	visibility:hidden;
+}
+
+.hidden2 {
+	visibility:hidden;
+}
+

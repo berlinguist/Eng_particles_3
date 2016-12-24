@@ -1,0 +1,2759 @@
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.AcceptabilityJudgment", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var opts = {
+            options:     this.options,
+            triggers:    [1],
+            children:    ["FlashSentence", {s: this.options.s, timeout: dget(this.options, "timeout", null)},
+                          "Question", { q:              this.options.q,
+                                        as:             this.options.as,
+                                        hasCorrect:     dget(this.options, "hasCorrect", false),
+                                        presentAsScale: this.options.presentAsScale,
+                                        autoFirstChar:  this.options.presentAsScale ? true : false,
+                                        randomOrder:    this.options.randomOrder,
+                                        showNumbers:    this.options.showNumbers,
+                                        timeout:        this.options.timeout,
+                                        instructions:   this.options.instructions,
+                                        leftComment:    this.options.leftComment,
+                                        rightComment:   this.options.rightComment }]/*,
+            manipulators: [
+                [0, function(div) { div.css('font-size', "larger"); return div; }]
+            ]*/
+        };
+
+        this.element.VBox(opts);
+    }
+});
+
+ibex_controller_set_properties("AcceptabilityJudgment",
+    { obligatory: ["s", "as"],
+      htmlDescription:
+          function (opts) {
+              var s = ibex_controller_get_property("FlashSentence", "htmlDescription")(opts);
+              var q = ibex_controller_get_property("Question", "htmlDescription")(opts);
+              var p =
+                  $(document.createElement("p"))
+                  .append($(document.createElement("b"))
+                          .append("Q: ")
+                          .append($(q)))
+                  .append($(document.createElement("br")))
+                  .append($(document.createElement("b"))
+                          .append("S: "))
+                  .append($(s));
+
+              return p;
+          }
+    }
+);
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.AudioPresentation", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+		
+        var questionField = "Question (NULL if none).";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+		
+		var t = this;
+		this.file = this.options.f;
+		var mainDiv = $(document.createElement("div"))
+			.addClass(this.cssPrefix + "div")
+			.appendTo(this.element);
+		
+			
+		var seekInfo = []
+			
+		var audio = $(document.createElement("audio"))
+			.attr({ src: this.file, controls: true})
+	    	.addClass(this.cssPrefix + "audio")
+	    	.appendTo(mainDiv);
+
+		//http://jsfiddle.net/aarongloege/fzXsT/light/
+		$(".AudioPresentation-audio")[0].addEventListener("ended", function() {
+			$(".QuestionSide-QuestionSide").removeClass("hidden");
+			$(".FlashSentence-flashed-sentence").removeClass("hidden");
+			__timer__.start();
+		});
+		
+		$(".AudioPresentation-audio")[0].addEventListener("play", function() {
+			console.log("play");
+			console.log(this.currentTime);
+			now = new Date().getTime();
+			console.log(now-creationTime);
+			seekInfo.push({"type": "play", "loc": this.currentTime, "time": now-creationTime});
+			
+			t.finishedCallback([[["type", "play"],
+								["loc", this.currentTime],
+								["time", now-creationTime]]]);
+						
+			}
+		);
+
+		$(".AudioPresentation-audio")[0].addEventListener("pause", function() {
+			console.log("pause");
+			console.log(this.currentTime);
+			now = new Date().getTime();
+			console.log(now-creationTime);
+			seekInfo.push({"type": "pause", "loc": this.currentTime, "time": now-creationTime});
+			
+			t.finishedCallback([[["type", "pause"],
+					["loc", this.currentTime],
+					["time", now-creationTime]]]);
+			
+			}
+		);
+
+
+		$(".AudioPresentation-audio")[0].addEventListener("seeking", function() {
+			console.log("seek");
+			console.log(this.currentTime);
+			now = new Date().getTime();
+			console.log(now-creationTime);
+			seekInfo.push({"type": "seeking", "loc": this.currentTime, "time": now-creationTime});
+
+			t.finishedCallback([[["type", "seeking"],
+					["loc", this.currentTime],
+					["time", now-creationTime]]]);
+
+			}
+		);
+		var creationTime = new Date().getTime();
+
+// 	var opts = {
+//             options:     this.options,
+//             triggers:    [2,3,4],
+//             children:    [
+//
+// 			"FlashSentence", {	s: "Oh I thought apples were in the sunflower family"},
+// 			"QuestionSide", {q: "After you hear the following audio clip, you will have 5 seconds to judge the utterance. Use the mouse to select your choice.  You will then be asked three additional questions. After the initial question, you will be able to listen to the audio again as many times as you like.",
+// 			            as: ["1", "2", "3", "4", "5"],
+// 			            presentAsScale: true,
+// 			            leftComment: "Very Odd",
+// 			            rightComment: "Perfectly Normal",
+// 			            },
+//
+// 			"Question", {
+//  							q:              "What emotion is the actor conveying?",
+//                             as:             this.options.as,
+//                             hasCorrect:     false,
+// 							followupMessage: null,
+//                             presentAsScale: false,
+//                             autoFirstChar:  false,
+//                             randomOrder:    false,
+//                             showNumbers:    false,
+//                             timeout:        this.options.timeout,
+//                             instructions:   this.options.instructions,
+// 							target:         this.options.target,
+//                             leftComment:    this.options.leftComment,
+//                             rightComment:   this.options.rightComment
+// 							},
+//
+// 			"QuestionB", {
+//  							q:              "What is the intensity of the emotion?",
+//                             as:             ["1","2","3","4","5"],
+//                             hasCorrect:     false,
+// 							followupMessage: null,
+//                             presentAsScale: true,
+//                             autoFirstChar:  false,
+//                             randomOrder:    false,
+//                             showNumbers:    false,
+//                             timeout:        this.options.timeout,
+//                             instructions:   this.options.instructions,
+// 							target:         this.options.target,
+//                             leftComment:    this.options.leftComment,
+//                             rightComment:   this.options.rightComment
+// 							},
+//
+// 			"FreeTextQuestion", {
+// 							q:              "What kind of situation would lead to this utterance?",
+// 	                        as:             ["1","2","3","4","5"],
+// 	                        hasCorrect:     false,
+// 							followupMessage: null,
+// 	                        presentAsScale: true,
+// 	                        autoFirstChar:  false,
+// 	                        randomOrder:    false,
+// 	                        showNumbers:    false,
+// 	                        timeout:        this.options.timeout,
+// 	                        instructions:   this.options.instructions,
+// 							target:         this.options.target,
+// 	                        leftComment:    this.options.leftComment,
+// 	                        rightComment:   this.options.rightComment
+// 							}
+// 						]
+// /*,
+//             manipulators: [
+//                 [0, function(div) { div.css('font-size', "larger"); return div; }]
+//             ]*/
+//         };
+//
+//         this.element.VBox(opts);
+
+				
+    }
+});
+
+ ibex_controller_set_properties("AudioPresentation", { obligatory: ["f"],
+       htmlDescription:
+           function (opts) {
+              return $(document.createElement("div")).text(opts.f)[0];
+          }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.Caption", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+        this.caption = this.options.message;
+        
+        var p = $(document.createElement("p"));
+        this.element.append(p);
+        p.text(this.caption).addClass(this.cssPrefix + "caption")
+        }
+
+    }
+);
+
+ibex_controller_set_properties("Caption", {
+    countsForProgressBar: false,
+    htmlDescription: function (opts) {
+        return $(document.createElement("div")).text(opts.normalMessage)[0];
+    }
+});
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+(function () {
+
+var __CommentBoxQuestionSide_callback__ = null;
+var __CommentBoxQuestionSides_answers__ = null;
+
+$.widget("ui.CommentBoxQuestionSide", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var CommentBoxQuestionSideField = "CommentBoxQuestionSide (NULL if none).";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+		var hasFeedback = dget(this.options, "hasFeedback", false);
+		var isFeedback = dget(this.options, "isComment", false);
+		
+        this.element.addClass(this.cssPrefix + "CommentBoxQuestionSide");
+
+        this.CommentBoxQuestionSide = dget(this.options, "q");
+
+        this.hasCorrect = dget(this.options, "hasCorrect", false);
+        // hasCorrect is either false, indicating that there is no correct answer,
+        // true, indicating that the first answer is correct, or an integer giving
+        // the index of the correct answer, OR a string giving the correct answer.
+        // Now we change it to either false or an index.
+        if (this.hasCorrect === true)
+            this.hasCorrect = 0;
+        if (typeof(this.hasCorrect) == "string") {
+            var foundIt = false;
+            for (var i = 0; i < this.answers.length; ++i) {
+                if (this.answers[i].toLowerCase() == this.hasCorrect.toLowerCase()) {
+                    this.hasCorrect = i;
+                    foundIt = true;
+                    break;
+                }
+            }
+            assert(foundIt, "Value of 'hasCorrect' option not recognized in CommentBoxQuestionSide");
+        }
+        this.timeout = dget(this.options, "timeout", null);
+        this.instructions = dget(this.options, "instructions");
+		this.target = dget(this.options, "target");
+		
+        if (! (this.hasCorrect === false))
+            assert(typeof(this.hasCorrect) == "number" && this.hasCorrect < this.answers.length,
+                   "Bad index for correct answer in CommentBoxQuestionSide");
+
+        this.setFlag = function(correct) {
+			return 1;
+        }
+
+        if (this.instructions) {
+            this.element.append($(document.createElement("p"))
+                                .addClass(this.cssPrefix + "instructions-text")
+                                .css('text-align', conf_centerItems ? 'center' : 'left')
+                                .text(this.instructions));
+
+			this.element.append($(document.createElement("p"))
+								.addClass(this.cssPrefix + "target-text")
+					            .css('text-align', conf_centerItems ? 'center' : 'left')
+					            .text(this.target));
+
+        }
+
+
+        if (this.CommentBoxQuestionSide) {
+            this.qp = $(document.createElement("p"))
+            .addClass(this.cssPrefix + "CommentBoxQuestionSide-text")
+            .css('text-align', conf_centerItems ? 'center' : 'left')
+            .append(this.CommentBoxQuestionSide);
+        }
+		this.xl = $(document.createElement("textarea")).attr("id", "comments").attr("rows", 3).attr("columns", 50).css('margin-left', "2em").css('padding-left', 0);
+		
+		this.xlbutton= $(document.createElement("div")).text("Continue").addClass(this.cssPrefix + "fake-link").click( function() {
+			comments = $("#comments").val();
+			__CommentBoxQuestionSide_callback__(comments); 
+			__QuestionSide_already = false;
+		}
+		
+		);
+		var t = this; // 'this' doesn't behave as a lexically scoped variable so can't be
+                      // captured in the closure defined below.
+        __CommentBoxQuestionSide_callback__ = function (val) {
+            var answerTime = new Date().getTime();
+            t.setFlag(val);
+            t.finishedCallback([[[CommentBoxQuestionSideField, t.CommentBoxQuestionSide ? csv_url_encode(t.CommentBoxQuestionSide) : "NULL"],[answerField, val], [correctField, "NULL"],[timeField, answerTime - t.creationTime]]]);
+        }
+
+        if (! (this.qp === undefined))
+            this.element.append(this.qp);
+		this.element.append(this.xl).append(this.xlbutton);
+
+        if (this.timeout) {
+            var t = this;
+            this.utils.setTimeout(function () {
+                var answerTime = new Date().getTime();
+                t.setFlag(false);
+                t.finishedCallback([[[CommentBoxQuestionSideField, t.CommentBoxQuestionSide ? csv_url_encode(t.CommentBoxQuestionSide) : "NULL"],[answerField, "NULL"], [correctField, "NULL"],[timeField, answerTime - t.creationTime]]]);
+            }, this.timeout);
+        }
+
+        // Store the time when this was first displayed.
+        this.creationTime = new Date().getTime();
+    }
+});
+
+})();
+
+ibex_controller_set_properties("CommentBoxQuestionSide", {
+    obligatory: ["as"],
+    htmlDescription: function(opts) {
+        return $(document.createElement("div")).text(opts.q || "");
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+function boolToInt(x) { if (x) return 1; else return 0; }
+
+$.widget("ui.DashedSentence", {
+    _init: function() {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        if (typeof(this.options.s) == "string")
+            this.words = this.options.s.split(/\s+/);
+        else {
+            assert_is_arraylike(this.options.s, "Bad value for 's' option of DashedSentence.");
+            this.words = this.options.s;
+        }
+        this.mode = dget(this.options, "mode", "self-paced reading");
+        this.wordTime = dget(this.options, "wordTime", 300); // Only for speeded accpetability.
+        this.wordPauseTime = dget(this.options, "wordPauseTime", 100); // Ditto.
+        this.showAhead = dget(this.options, "showAhead", true);
+        this.showBehind = dget(this.options, "showBehind", true);
+        this.currentWord = 0;
+
+        // Is there a "stopping point" specified?
+        this.stoppingPoint = this.words.length;
+        for (var i = 0; i < this.words.length; ++i) {
+            if (stringStartsWith("@", this.words[i])) {
+                this.words[i] = this.words[i].substring(1);
+                this.stoppingPoint = i + 1;
+                break;
+            }
+        }
+
+        this.mainDiv = $("<div>");
+        this.element.append(this.mainDiv);
+
+        this.background = this.element.css('background-color') || "white";
+        this.isIE7;
+        /*@cc_on this.isIE = true; @*/
+        if (this.isIE)
+            this.background = "white";
+
+        // Defaults.
+        this.unshownBorderColor = dget(this.options, "unshownBorderColor", "#9ea4b1");
+        this.shownBorderColor = dget(this.options, "shownBorderColor", "black");
+        this.unshownWordColor = dget(this.options, "unshownWordColor", this.background);
+        this.shownWordColor = dget(this.options, "shownWordColor", "black");
+
+        // Precalculate MD5 of sentence.
+        this.sentenceDescType = dget(this.options, "sentenceDescType", "literal");
+        assert(this.sentenceDescType == "md5" || this.sentenceDescType == "literal", "Bad value for 'sentenceDescType' option of DashedSentence.");
+        if (this.sentenceDescType == "md5") {
+            var canonicalSentence = this.words.join(' ');
+            this.sentenceDesc = hex_md5(canonicalSentence);
+        }
+        else {
+	    if (typeof(this.options.s) == "string")
+		this.sentenceDesc = csv_url_encode(this.options.s);
+	    else
+		this.sentenceDesc = csv_url_encode(this.options.s.join(' '));
+        }
+
+        this.mainDiv.addClass(this.cssPrefix + "sentence");
+
+        this.resultsLines = [];
+        if (this.mode == "self-paced reading") {
+            // Don't want to be allocating arrays in time-critical code.
+            this.sprResults = new Array(this.words.length);
+            for (var i = 0; i < this.sprResults.length; ++i)
+                this.sprResults[i] = new Array(2);
+        }
+        this.previousTime = null;
+
+        this.wordISpans = new Array(this.words.length); // Inner spans.
+        this.wordOSpans = new Array(this.words.length); // Outer spans.
+        this.owsnjq = new Array(this.words.length); // 'outer word spans no jQuery'.
+        this.iwsnjq = new Array(this.words.length);
+        for (var j = 0; j < this.words.length; ++j) {
+            var ispan;
+            var ospan = $(document.createElement("span"))
+                        .addClass(this.cssPrefix + 'ospan')
+                        .append(ispan = $(document.createElement("span"))
+                                        .addClass(this.cssPrefix + 'ispan')
+                                        .text(this.words[j]));
+            if (! this.showAhead)
+                span.css('border-color', this.background);
+            this.mainDiv.append(ospan);
+            if (j + 1 < this.words.length)
+                this.mainDiv.append("&nbsp; ");
+            this.wordISpans[j] = ispan;
+            this.wordOSpans[j] = ospan;
+            this.iwsnjq[j] = ispan[0];
+            this.owsnjq[j] = ospan[0];
+        }
+
+        if (this.mode == "speeded acceptability") {
+            this.showWord(0);
+            var t = this;
+            function wordTimeout() {
+                t.blankWord(t.currentWord);
+                ++(t.currentWord);
+                if (t.currentWord >= t.stoppingPoint)
+                    t.finishedCallback([[["Sentence (or sentence MD5)", t.sentenceDesc]]]);
+                else
+                    t.utils.setTimeout(wordPauseTimeout, t.wordPauseTime);
+            }
+            function wordPauseTimeout() {
+                t.showWord(t.currentWord);
+                t.utils.clearTimeout(wordPauseTimeout);
+                t.utils.setTimeout(wordTimeout, t.wordTime);
+            }
+            this.utils.setTimeout(wordTimeout, this.wordTime);
+        }
+
+        if (this.mode == "self-paced reading") {
+            var t = this;
+            // Inlining this to minimize function calls in code for updating screen after space is pressed.
+/*            function goToNext(time) {
+                t.recordSprResult(time, t.currentWord);
+
+                if (t.currentWord - 1 >= 0)
+                    t.blankWord(t.currentWord - 1);
+                if (t.currentWord < t.stoppingPoint)
+                    t.showWord(t.currentWord);
+                ++(t.currentWord);
+                if (t.currentWord > t.stoppingPoint) {
+                    t.processSprResults();
+                    t.finishedCallback(t.resultsLines);
+                }
+
+                return false;
+            }*/
+
+            this.safeBind($(document), 'keydown', function(e) {
+                var time = new Date().getTime();
+                var code = e.keyCode;
+
+                if (code == 32) {
+                    // *** goToNext() ***
+//                    t.recordSprResult(time, t.currentWord);
+                    var word = t.currentWord;
+                    if (word > 0 && word <= t.stoppingPoint) {
+                        var rs = t.sprResults[word-1];
+                        rs[0] = time;
+                        rs[1] = t.previousTime;
+                    }
+                    t.previousTime = time;
+
+                    if (t.currentWord - 1 >= 0)
+                        t.blankWord(t.currentWord - 1);
+                    if (t.currentWord < t.stoppingPoint)
+                        t.showWord(t.currentWord);
+                    ++(t.currentWord);
+                    if (t.currentWord > t.stoppingPoint) {
+                        t.processSprResults();
+                        t.finishedCallback(t.resultsLines);
+                    }
+                    return false;
+                    // ***
+                }
+                else {
+                    return true;
+                }
+            });
+
+            // For iPhone/iPod touch -- add button for going to next word.
+            if (isIPhone) {
+                var btext = dget(this.options, "iPhoneNextButtonText", "next");
+                var next = $("<div>")
+                           .addClass(this.cssPrefix + "iphone-next")
+                           .text(btext);
+                this.element.append(next);
+                next.click(function () {
+                    var time = new Date().getTime();
+
+                    // *** goToNext() ***
+                    //t.recordSprResult(time, t.currentWord);
+                    var word = t.currentWord;
+                    if (word > 0 && word < t.stoppingPoint) {
+                        var rs = t.sprResults[word-1];
+                        rs[0] = time;
+                        rs[1] = t.previousTime;
+                    }
+                    t.previousTime = time;
+
+                    if (t.currentWord - 1 >= 0)
+                        t.blankWord(t.currentWord - 1);
+                    if (t.currentWord < t.stoppingPoint)
+                        t.showWord(t.currentWord);
+                    ++(t.currentWord);
+                    if (t.currentWord > t.stoppingPoint) {
+                        t.processSprResults();
+                        t.finishedCallback(t.resultsLines);
+                    }
+
+                    return false;
+                    // ***
+                });
+            }
+        }
+    },
+
+    // Not using JQuery in these two methods just in case it slows things down too much.
+    // NOTE: [0] subscript gets DOM object from JQuery selector.
+    blankWord: function(w) {
+        if (this.currentWord <= this.stoppingPoint) {
+            this.owsnjq[w].style.borderColor = this.unshownBorderColor;
+            this.iwsnjq[w].style.visibility = "hidden";
+            if (! this.showBehind)
+                this.owsnjq[w].style.borderColor = this.background;
+        }
+    },
+    showWord: function(w) {
+        if (this.currentWord < this.stoppingPoint) {
+            if (this.showAhead || this.showBehind)
+                this.owsnjq[w].style.borderColor = this.shownBorderColor;
+            this.iwsnjq[w].style.visibility = "visible";
+        }
+    },
+
+    // Inlining this now.
+    /*recordSprResult: function(time, word) {
+        if (word > 0 && word < this.stoppingPoint) {
+            var rs = this.sprResults[word-1];
+            rs[0] = time;
+            rs[1] = this.previousTime;
+        }
+        this.previousTime = time;
+    },*/
+
+    processSprResults: function () {
+        for (var i = 0; i < this.sprResults.length; ++i) {
+            this.resultsLines.push([
+                ["Word number", i+1],
+                ["Word", csv_url_encode(this.words[i])],
+                ["Reading time", this.sprResults[i][0] - this.sprResults[i][1]],
+                ["Newline?", boolToInt(((i+1) < this.wordOSpans.length) &&
+                                       (this.wordOSpans[i].offset().top != this.wordOSpans[i+1].offset().top))],
+                ["Sentence (or sentence MD5)", this.sentenceDesc]
+            ]);
+        }
+    }
+});
+
+ibex_controller_set_properties("DashedSentence", {
+    obligatory: ["s"],
+    htmlDescription: function (opts) {
+        return $(document.createElement("div")).text(opts.s);
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.FlashSentence", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.finishedCallback = this.options._finishedCallback;
+        this.utils = this.options._utils;
+
+        this.sentence = this.options.s;
+        this.timeout = dget(this.options, "timeout", 2000);
+
+        this.sentenceDescType = dget(this.options, "sentenceDescType", "literal");
+        assert(this.sentenceDescType == "md5" || this.sentenceDescType == "literal", "Bad value for 'sentenceDescType' option of FlashSentence controller.");
+        if (this.sentenceDescType == "md5") {
+            var canonicalSentence = this.sentence.split('/\s/').join(' ');
+            this.sentenceMD5 = hex_md5(canonicalSentence);
+        }
+        else {
+            this.sentenceMD5 = csv_url_encode(this.options.s);
+        }
+
+        this.element.addClass(this.cssPrefix + "flashed-sentence");
+        this.element.addClass("hidden");
+		
+        this.element.append(this.sentence);
+
+        if (this.timeout) {
+            var t = this;
+            this.utils.setTimeout(function() {
+                t.finishedCallback([[["Sentence (or sentence MD5)", t.sentenceMD5]]]);
+            }, this.timeout);
+        }
+        else {
+            // Give results without actually finishing.
+            if (this.utils.setResults)
+                this.utils.setResults([[["Sentence (or sentence MD5)", this.sentenceMD5]]]);
+        }
+    }
+});
+
+ibex_controller_set_properties("FlashSentence", {
+    obligatory: ["s"],
+    htmlDescription: function (opts) {
+        return $(document.createElement("div")).text(opts.s)[0];
+    }
+});
+
+
+$.widget("ui.FlashSide", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+		var isFeedback = false;
+		var isComment = false;
+
+        var isContext = true;
+		var qType = dget(this.options, "qType", "QuestionSide");
+		var showClass = qType;
+		
+        if(this.options.target == "") {
+            isContext = false;
+        }
+
+		if(this.options.feedback) {
+			isFeedback = true;
+//			showClass = "FeedbackQuestionSide"
+		}
+
+		if(this.options.comment) {
+			isComment = true;
+//			showClass = "CommentBoxQuestionSide";
+		}
+
+		
+		var qSide = { q:              this.options.q,
+                        as:             this.options.as,
+                        hasCorrect:     dget(this.options, "hasCorrect", false),
+                        presentAsScale: this.options.presentAsScale,
+                        autoFirstChar:  this.options.presentAsScale ? true : false,
+                        randomOrder:    this.options.randomOrder,
+                        showNumbers:    this.options.showNumbers,
+                        timeout:        this.options.timeout,
+                        instructions:   this.options.instructions,
+						target:         this.options.target, 
+                        leftComment:    this.options.leftComment,
+                        rightComment:   this.options.rightComment,
+						qType: 			this.options.qType,
+						hasContext:     isContext};
+
+		if(isFeedback) {
+			var feedbackQ = {q: this.options.feedbackQ,
+							as:             this.options.feedbackAs,
+                			hasCorrect:     false,
+                			presentAsScale: false,
+                			autoFirstChar:  this.options.presentAsScale ? true : false,
+                			randomOrder:    this.options.randomOrder,
+                			showNumbers:    this.options.showNumbers,
+                			timeout:        this.options.timeout,
+                			instructions:   "",
+							target:         "", 
+                			leftComment:    this.options.leftComment,
+                			rightComment:   this.options.rightComment,
+							isFeedback: true,
+							hasContext:     isContext};
+
+			qSide["hasFeedback"]= this.options.feedback;
+		}
+		
+		if(isComment) {
+			var commentQ = {q: this.options.commentQ,
+                			hasCorrect:     false,
+                			presentAsScale: false,
+                			autoFirstChar:  this.options.presentAsScale ? true : false,
+                			randomOrder:    this.options.randomOrder,
+                			showNumbers:    this.options.showNumbers,
+                			timeout:        this.options.timeout,
+                			instructions:   "",
+							target:         "", 
+							isComment: true,
+							hasContext:     isContext};
+
+			qSide["hasComment"]= this.options.comment;
+		}
+		
+		var Fsent = {s: dget(this.options, "s", ""), timeout: dget(this.options, "timeout", null), isContext: isContext, showClass: showClass};
+
+		qSide["followupMessage"] = dget(this.options, "followupMessage", null);				
+		qSide["overlays"] = dget(this.options, "overlays", null);				
+
+		
+        var opts = {
+            options:     this.options};
+
+		if(Fsent["s"] === "") {
+			if(isFeedback) {
+				feedbackQ["followupMessage"] = dget(this.options, "followupMessage", null);				
+				opts["children"] = [qType, qSide, "FeedbackQuestionSide", feedbackQ];
+				opts["triggers"] = [1];
+			} else if(isComment){
+				commentQ["followupMessage"] = dget(this.options, "followupMessage", null);				
+				opts["children"] = [qType, qSide, "CommentBoxQuestionSide", commentQ];
+				opts["triggers"] = [1];
+			} else{
+				qSide["followupMessage"] = dget(this.options, "followupMessage", null);				
+				opts["children"] = [qType, qSide];
+				opts["triggers"] = [0];
+			}
+		} else {
+			if(isFeedback) {
+				feedbackQ["followupMessage"] = dget(this.options, "followupMessage", null);				
+				opts["children"] = ["FlashSentence", Fsent, qType, qSide, "FeedbackQuestionSide", feedbackQ];	
+				opts["triggers"] = [2];
+			} else if(isComment) {
+				commentQ["followupMessage"] = dget(this.options, "followupMessage", null);				
+				opts["children"] = ["FlashSentence", Fsent, qType, qSide, "CommentBoxQuestionSide", commentQ];	
+				opts["triggers"] = [2];				
+			} else {
+				qSide["followupMessage"] = dget(this.options, "followupMessage", null);				
+				opts["children"] = ["FlashSentence", Fsent, qType, qSide];	
+				opts["triggers"] = [1];
+				
+			}
+		}
+/*,
+            manipulators: [
+                [0, function(div) { div.css('font-size', "larger"); return div; }]
+            ]*/
+
+/*		if(this.option.commentBox != false) {
+			opts = merge_dicts(opts, {"Form", {html}} );
+		}
+*/
+        this.element.VBoxB(opts);
+    }
+});
+
+ibex_controller_set_properties("FlashSide",
+    { obligatory: ["f", "s", "as"],
+      htmlDescription:
+          function (opts) {
+              var s = ibex_controller_get_property("FlashSentence", "htmlDescription")(opts);
+              var q = ibex_controller_get_property("Question", "htmlDescription")(opts);
+              var p =
+                  $(document.createElement("p"))
+                  .append($(document.createElement("b"))
+                          .append("Q: ")
+                          .append($(q)))
+                  .append($(document.createElement("br")))
+                  .append($(document.createElement("b"))
+                          .append("S: "))
+                  .append($(s));
+
+              return p;
+          }
+    }
+);
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.Form", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.finishedCallback = this.options._finishedCallback;
+        this.utils = this.options._utils;
+
+        this.html = dget(this.options, "html");
+        this.continueMessage = dget(this.options, "continueMessage", "Click here to continue");
+        this.checkedValue = dget(this.options, "checkedValue", "yes");
+        this.uncheckedValue = dget(this.options, "uncheckedValue", "no");
+        this.validators = dget(this.options, "validators", { });
+        this.errorCSSClass = dget(this.options, "errorCSSClass", "error");
+        this.obligatoryErrorGenerator =
+            dget(this.options, "obligatoryErrorGenerator",
+                 function (field) { return "The \u2018" + field + "\u2019 field is obligatory."; });
+        this.obligatoryCheckboxErrorGenerator =
+            dget(this.options, "obligatoryCheckboxErrorGenerator",
+                 function (field) { return "You must check the " + field + " checkbox to continue."; });
+        this.obligatoryRadioErrorGenerator =
+            dget(this.options, "obligatoryRadioErrorGenerator",
+                 function (field) { return "You must select an option for \u2018" + field + "\u2019."; });
+
+        var t = this;
+
+        function alertOrAddError(name, error) {
+            var ae = $("label." + escape(t.errorCSSClass) + "[for=__ALL_FIELDS__]");
+            if (ae.length > 0) {
+                ae.addClass(t.cssPrefix + "error-text").text(error);
+                return;
+            }
+
+            var e = $("label." + escape(t.errorCSSClass) + "[for=" + escape(name) + "]");
+            if (e.length > 0)
+                e.addClass(t.cssPrefix + "error-text").text(error);
+            else 
+                alert(error);
+        }
+
+        var HAS_LOADED = false;
+
+        function handleClick(dom) {
+            return function (e) {
+                e.preventDefault();
+                if (! HAS_LOADED) return;
+
+                // Get rid of any previous errors.
+                $("." + t.cssPrefix + "error-text").empty();
+
+                var rlines = [];
+
+                var inps = $(dom).find("input[type=text]");
+                var tas = $(dom).find("textarea");
+                for (var i = 0; i < tas.length; ++i) { inps.push(tas[i]); }
+
+                for (var i = 0; i < inps.length; ++i) {
+                    var inp = $(inps[i]);
+
+                    if (inp.hasClass("obligatory") && ((! inp.attr('value')) || inp.attr('value').match(/^\s*$/))) {
+                        alertOrAddError(inp.attr('name'), t.obligatoryErrorGenerator(inp.attr('name')));
+                        return;
+                    }
+
+                    if (t.validators[inp.attr('name')]) {
+                        var er = t.validators[inp.attr('name')](inp.attr('value'));
+                        if (typeof(er) == "string") {
+                            alertOrAddError(inp.attr('name'), er);
+                            return;
+                        }
+                    }
+
+                    rlines.push([["Field name", custom_url_encode(inp.attr('name'))],
+                                 ["Field value", custom_url_encode(inp.attr('value'))]]);
+                }
+
+                var checks = $(dom).find("input[type=checkbox]");
+                for (var i = 0; i < checks.length; ++i) {
+                    var check = $(checks[i]);
+ 
+                    // Checkboxes with the 'obligatory' class must be checked.
+                    if (! check.attr('checked') && check.hasClass('obligatory')) {
+                        alertOrAddError(check.attr('name'), t.obligatoryCheckboxErrorGenerator(check.attr('name')));
+                        return;
+                    }
+
+                    rlines.push([["Field name", check.attr('name')],
+                                 ["Field value", check.attr('checked') ? t.checkedValue : t.uncheckedValue]]);
+                }
+
+                var rads = $(dom).find("input[type=radio]");
+                // Sort by name.
+                var rgs = { };
+                for (var i = 0; i < rads.length; ++i) {
+                    var rad = $(rads[i]);
+                    if (rad.attr('name')) {
+                        if (! rgs[rad.attr('name')])
+                            rgs[rad.attr('name')] = [];
+                        rgs[rad.attr('name')].push(rad);
+                    }
+                }
+                for (k in rgs) {
+                    // Check if it's oblig.
+                    var oblig = false;
+                    var oneIsSelected = false;
+                    var oneThatWasSelected;
+                    var val;
+                    for (var i = 0; i < rgs[k].length; ++i) {
+                        if (rgs[k][i].hasClass('obligatory')) oblig = true;
+                        if (rgs[k][i].attr('checked')) {
+                            oneIsSelected = true;
+                            oneThatWasSelected = i;
+                            val = rgs[k][i].attr('value');
+                        }
+                    }
+                    if (oblig && (! oneIsSelected)) {
+                        alertOrAddError(rgs[k][0].attr('name'), t.obligatoryRadioErrorGenerator(rgs[k][0].attr('name')));
+                        return;
+                    }
+                    if (oneIsSelected) {
+                        rlines.push([["Field name", rgs[k][0].attr('name')],
+                                     ["Field value", rgs[k][oneThatWasSelected].attr('value')]]);
+                    }
+                }
+
+                t.finishedCallback(rlines);
+            }
+        }
+
+        var dom = htmlCodeToDOM(this.html, function (dom) { HAS_LOADED = true; });
+        t.element.append(dom);
+        t.element.append($("<p>").append($("<a>").attr('href', '').text("\u2192 " + t.continueMessage)
+                                         .addClass(ibex_controller_name_to_css_prefix("Message") + "continue-link")
+                                         .click(handleClick(dom))));
+    }
+});
+
+ibex_controller_set_properties("Form", {
+    obligatory: ["html"],
+    countsForProgressBar: false,
+    htmlDescription: function (opts) {
+        return htmlCodeToDOM(opts.html);
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+(function () {
+
+var __FreeTextQuestion_callback__ = null;
+var __FreeTextQuestions_answers__ = null;
+
+$.widget("ui.FreeTextQuestion", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var questionField = "Question (NULL if none).";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+
+        this.element.addClass(this.cssPrefix + "question");
+        this.element.addClass("hidden");
+
+        this.question = dget(this.options, "q");
+        this.answers = this.options.as;
+
+
+        if (this.question) {
+            this.qp = $(document.createElement("p"))
+            .addClass(this.cssPrefix + "question-text")
+            .css('text-align', conf_centerItems ? 'center' : 'left')
+            .append(this.question);
+        }
+
+        if (! (this.qp === undefined))
+            this.element.append(this.qp);
+
+		this.answerbox = $(document.createElement("textarea"))
+			.addClass(this.cssPrefix + "question-box");
+		
+		this.done = $(document.createElement("p"))
+			.addClass(this.cssPrefix + "nextbutton")
+			.append("Done!")
+		
+		var t = this;
+		this.done.click(function() {
+			var text = t.answerbox.attr("value");
+			if (text != "") {
+                var answerTime = new Date().getTime();
+				t.finishedCallback([[["scenario", csv_url_encode(text)], 
+									 ["response time", answerTime-t.creationTime]
+									]]);
+				t.done.addClass("hidden");
+			}
+				
+			}
+		);
+		this.element.append(this.answerbox);
+		this.element.append(this.done);
+
+
+        // Again, using tables to center because IE sucks.
+        var table = $("<table" + (conf_centerItems ? " align='center'" : "") + ">");
+        var tr = $(document.createElement("tr"));
+        var td = $("<td" + (conf_centerItems ? " align='center'" : "") + ">")
+        if (conf_centerItems)
+            td.attr('align', 'center');
+        this.element.append(table.append(tr.append(td.append(this.xl))));
+
+        if (this.instructions) {
+            this.element.append($(document.createElement("p"))
+                                .addClass(this.cssPrefix + "instructions-text")
+                                .css('text-align', conf_centerItems ? 'center' : 'left')
+                                .text(this.instructions));
+        }
+
+        if (this.timeout) {
+            var t = this;
+            this.utils.setTimeout(function () {
+                var answerTime = new Date().getTime();
+                t.setFlag(false);
+                t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                     [answerField, "NULL"], [correctField, "NULL"],
+                                     [timeField, answerTime - t.creationTime]]]);
+            }, this.timeout);
+        }
+
+        // Store the time when this was first displayed.
+        this.creationTime = new Date().getTime();
+    }
+});
+
+})();
+
+ibex_controller_set_properties("FreeTextQuestion", {
+    obligatory: ["as"],
+    htmlDescription: function(opts) {
+        return $(document.createElement("div")).text(opts.q || "");
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.HBox", {
+    _init: function () {
+        this.cssPrefix = this.options.options._cssPrefix;
+        this.utils = this.options.options._utils;
+        this.finishedCallback = this.options.options._finishedCallback;
+        this.controllerDefaults = this.options.options._controllerDefaults;
+        this.utilsClass = this.options.options._utilsClass;
+
+        this.children = this.options.children;
+        this.triggers = this.options.triggers;
+        this.padding = dget(this.options, "padding", "2em");
+
+        assert_is_arraylike(this.children, "The 'children' option of HBox must be an array");
+        assert(this.children.length % 2 == 0, "The 'children' array for HBox must contain an even number of elements");
+
+        assert_is_arraylike(this.triggers, "The 'triggers' option of HBox must be an array");
+        assert(this.triggers.length > 0, "The 'triggers' array for HBox must be an array of length > 0");
+
+        var t = this;
+        $.each(this.triggers, function (_, tr) {
+            assert(typeof(tr) == "number", "The 'triggers' array for HBox must be an array of integers");
+            assert(tr >= 0 && tr < t.children.length / 2,
+                   "Numbers in the 'triggers' array must be indices into the 'children' array starting from 0");
+        });
+
+        this.indicesAndResultsOfThingsThatHaveFinished = [];
+//        this.childInstances = [];
+        this.childUtils = [];
+
+    var remainingOptions = {"_cssPrefix": this.cssPrefix,
+                "_utils": this.utils,
+                "_finishedCallback": this.finishedCallback,
+                "_controllerDefaults": this.controllerDefaults,
+                "_utilsClass": this.utilsClass,
+    };
+    
+        for (var i = 0; i < this.children.length; i += 2) {
+            var controllerClass = this.children[i];
+            var childOptions = this.children[i + 1];
+            childOptions = merge_dicts(this.controllerDefaults[controllerClass], childOptions);
+       childOptions = merge_dicts(childOptions, remainingOptions);
+
+            var d = $(document.createElement("p")).css('clear', 'both');
+
+            // Call a manipulator if one was supplied.
+            if (! (this.options.manipulators === undefined)) {
+                for (var j = 0; j < this.options.manipulators.length; ++j) {
+                    if (this.options.manipulators[j][0] == (i / 2))
+                        d = this.options.manipulators[j][1](d);
+                }
+            }
+
+            // Add padding if requested.
+            var dd = null;
+            if (this.padding) {
+                dd = $(document.createElement("div"))
+                     .css('margin-right', this.padding)
+           .css('float', 'left')
+                     .append(d);
+            }
+
+            // Wrap in a table if we're centering things.
+            var ddd = null;
+            if (conf_centerItems) {
+                ddd = $("<table align='center'>");
+                var tr = $(document.createElement("tr"));
+                var td = $(document.createElement("td"));
+                ddd.append(tr.append(td.append(dd ? dd : d)));
+            }
+
+            // Add the actual child.
+            var ac = ddd ? ddd : (dd ? dd : d);
+            this.element.append(ac);    
+
+            var u = new this.utilsClass(this.utils.getValuesFromPreviousElement());
+            this.childUtils.push(u);
+            (function(i) {
+                u.setResults = function(results) {
+                    t.indicesAndResultsOfThingsThatHaveFinished.push([i, results]);
+                };
+            })(i);
+
+            var t = this;
+            var l = this.childUtils.length - 1;
+            // Get around JavaScript's silly closure capture behavior (deriving
+            // from weird variable scoping rules).
+            // See http://calculist.blogspot.com/2005/12/gotcha-gotcha.html
+            (function(l) {
+                childOptions._finishedCallback = function (r) { t.myFinishedCallback(l, r); };
+                childOptions._cssPrefix = ibex_controller_name_to_css_prefix(controllerClass);
+                childOptions._utils = u;
+                addSafeBindMethodPair(controllerClass);
+                d[controllerClass](childOptions);
+
+/*                t.childInstances.push(
+                    new controllerClass(
+                        d,
+                        childOptions,
+                        function (r) { t.myFinishedCallback(l, r); },
+                        u
+                    )
+                );*/
+            })(l);
+        }
+    },
+
+    myFinishedCallback: function(index, results) {
+        this.childUtils[index].gc();
+        this.indicesAndResultsOfThingsThatHaveFinished.push([index, results]);
+
+        var satisfied = true;
+        for (var i = 0; i < this.triggers.length; ++i) {
+            var foundIt = false;
+            for (var j = 0; j < this.indicesAndResultsOfThingsThatHaveFinished.length; ++j) {
+                if (this.indicesAndResultsOfThingsThatHaveFinished[j][0] == this.triggers[i]) {
+                    foundIt = true;
+                    break;
+                }
+            }
+            if (! foundIt) {
+                satisfied = false;
+                break;
+            }
+        }
+
+        if (satisfied) {
+            // Merge values for next element.
+            var merged = merge_list_of_dicts($.map(this.childUtils,
+                                             function (x) { return x.valuesForNextElement; }));
+            this.utils.valuesForNextElement = merged;
+
+            this.finishedCallback(this.concatResults(this.indicesAndResultsOfThingsThatHaveFinished));
+        }
+    },
+
+    concatResults: function(iar) {
+        iar = iar.sort(function(x, y) { return x[0] - y[0]; });
+        var res = [];
+        for (var i = 0; i < iar.length; ++i) {
+            for (var j = 0; j < iar[i][1].length; ++j) {
+                var line = [];
+                for (var k = 0; k < iar[i][1][j].length; ++k)
+                    line.push(iar[i][1][j][k]);
+                res.push(line);
+            }
+        }
+        return res;
+    }
+});
+
+ibex_controller_set_properties("HBox", { obligatory: ["children", "triggers"] });
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.Message", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        this.html = this.options.html;
+        this.element.addClass(this.cssPrefix + "message");
+        this.element.append(htmlCodeToDOM(this.html));
+
+        // Bit of copy/pasting from 'Separator' here.
+        this.transfer = dget(this.options, "transfer", "click");
+        assert(this.transfer == "click" || this.transfer == "keypress" || typeof(this.transfer) == "number",
+               "Value of 'transfer' option of Message must either be the string 'click' or a number");
+
+        if (this.transfer == "click") {
+            this.continueMessage = dget(this.options, "continueMessage", "Click here to continue.");
+            this.consentRequired = dget(this.options, "consentRequired", false);
+            this.consentMessage = dget(this.options, "consentMessage", "I have read the above and agree to do the experiment.");
+            this.consentErrorMessage = dget(this.options, "consentErrorMessage", "You must consent before continuing.");
+
+            // Add the consent checkbox if necessary.
+            var checkbox = null;
+            if (this.consentRequired) {
+                var names = { };
+                var checkbox;
+                var message;
+                var dom =
+                    $(document.createElement("form"))
+                    .append($(document.createElement("table"))
+                            .css('border', 'none').css('padding', 0).css('margin', 0)
+                            .append($(document.createElement("tr"))
+                                    .append($(document.createElement("td"))
+                                            .css('border', 0).css('padding-left', 0).css('margin-left', 0)
+                                            .append(checkbox = $(document.createElement("input"))
+                                                    .attr('id', 'consent_checkbox')
+                                                    .attr('type', 'checkbox')
+                                                    .attr('checked', 0)))
+                                    .append(message = $(document.createElement("td"))
+                                            .css('border', 0).css('margin-left', 0).css('padding-left', 0)
+                                            .append($("<label>")
+                                                    .attr('for', 'consent_checkbox')
+                                                    .text(this.consentMessage)))));
+
+                this.element.append(dom);
+                // Change cursor to pointer when hovering over the message (have to use JS because
+                // IE doesn't support :hover for anything other than links).
+                message.mouseover(function () {
+                    message.css('cursor', "default");
+                });
+            }
+
+            var t = this;
+            // Get a proper lexical scope for the checkbox element so we can capture it in a closure.
+            // ALEX: Looking at this again, I don't see why it's necessary to create a local scope here
+            // but I am leaving it in as I may be missing something and it won't do any harm.
+            (function (checkbox) {
+                t.element.append(
+                    $(document.createElement("p"))
+                    .css('clear', 'left')
+                        .append($(document.createElement("a"))
+                            .attr('href', '')
+                            .addClass(t.cssPrefix + 'continue-link')
+                            .text("\u2192 " + t.continueMessage)
+                            .click(function () {
+                                if ((! checkbox) || checkbox.attr('checked'))
+                                    t.finishedCallback();
+                                else
+                                    alert(t.consentErrorMessage);
+                                return false;
+                            }))
+                );
+            })(checkbox);
+        }
+        else if (this.transfer == "keypress") {
+            var t = this;
+            this.safeBind($(document), 'keydown', function () {
+                t.finishedCallback(null);
+                return false;
+            });
+        }
+        else {
+            assert(! this.consentRequired, "The 'consentRequired' option of the Message controller can only be set to true if the 'transfer' option is set to 'click'.");
+            this.utils.setTimeout(this.finishedCallback, this.transfer);
+        }
+    }
+});
+
+ibex_controller_set_properties("Message", {
+    obligatory: ["html"],
+    countsForProgressBar: false,
+    htmlDescription: function (opts) {
+        return truncateHTML(htmlCodeToDOM(opts.html), 100);
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.PictureDisplay", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+		this.file = this.options.f;
+		var mainDiv = $(document.createElement("div"))
+			.addClass(this.cssPrefix + "div")
+			.appendTo(this.element);
+			
+		var pic = $(document.createElement("img"))
+			.attr({ src: this.file })
+	    	.addClass(this.cssPrefix + "picture")
+	    	.appendTo(mainDiv)
+
+	    var test = "test";
+    }
+});
+
+ ibex_controller_set_properties("PictureDisplay", { obligatory: ["f"],
+       htmlDescription:
+           function (opts) {
+              return $(document.createElement("div")).text(opts.f)[0];
+          }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.PictureJudgment", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var opts = {
+            options:     this.options,
+            triggers:    [1],
+            children:    [
+			"PictureDisplay", {f: this.options.f},
+
+			"FlashSide", {	s: this.options.s, 
+							timeout: dget(this.options, "timeout", null),
+ 							q:              this.options.q,
+                            as:             this.options.as,
+                            hasCorrect:     dget(this.options, "hasCorrect", false),
+							followupMessage: dget(this.options, "followupMessage", null),
+							overlays: 		dget(this.options, "overlays", null),
+                            presentAsScale: this.options.presentAsScale,
+                            autoFirstChar:  this.options.presentAsScale ? true : false,
+                            randomOrder:    this.options.randomOrder,
+                            showNumbers:    this.options.showNumbers,
+                            timeout:        this.options.timeout,
+                            instructions:   this.options.instructions,
+							target:         this.options.target, 
+                            leftComment:    this.options.leftComment,
+                            rightComment:   this.options.rightComment, 
+							feedback: 		this.options.feedback,
+							comment: 		this.options.comment,
+							commentQ:	 	this.options.commentQ,
+							feedbackQ:	 	this.options.feedbackQ,
+							feedbackAs:		this.options.feedbackAs,
+							qType: 			dget(this.options, "qType", "QuestionSide")},							
+            "Caption", {message: "Assume the picture and text provide all necessary information."},
+                          						
+						]
+/*,
+            manipulators: [
+                [0, function(div) { div.css('font-size', "larger"); return div; }]
+            ]*/
+        };
+
+        this.element.HBox(opts);
+    }
+});
+
+ibex_controller_set_properties("PictureJudgment",
+    { obligatory: ["f", "s", "as"],
+      htmlDescription:
+          function (opts) {
+              var s = ibex_controller_get_property("FlashSentence", "htmlDescription")(opts);
+              var q = ibex_controller_get_property("Question", "htmlDescription")(opts);
+              var p =
+                  $(document.createElement("p"))
+                  .append($(document.createElement("b"))
+                          .append("Q: ")
+                          .append($(q)))
+                  .append($(document.createElement("br")))
+                  .append($(document.createElement("b"))
+                          .append("S: "))
+                  .append($(s));
+
+              return p;
+          }
+    }
+);
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+(function () {
+
+var __Question_callback__ = null;
+var __Questions_answers__ = null;
+
+$.widget("ui.Question", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var questionField = "Question (NULL if none).";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+
+        this.element.addClass(this.cssPrefix + "question");
+        this.element.addClass("hidden");
+
+        this.question = dget(this.options, "q");
+        this.answers = this.options.as;
+
+        this.hasCorrect = dget(this.options, "hasCorrect", false);
+        // hasCorrect is either false, indicating that there is no correct answer,
+        // true, indicating that the first answer is correct, or an integer giving
+        // the index of the correct answer, OR a string giving the correct answer.
+        // Now we change it to either false or an index.
+        if (this.hasCorrect === true)
+            this.hasCorrect = 0;
+        if (typeof(this.hasCorrect) == "string") {
+            var foundIt = false;
+            for (var i = 0; i < this.answers.length; ++i) {
+                if (this.answers[i].toLowerCase() == this.hasCorrect.toLowerCase()) {
+                    this.hasCorrect = i;
+                    foundIt = true;
+                    break;
+                }
+            }
+            assert(foundIt, "Value of 'hasCorrect' option not recognized in Question");
+        }
+        this.showNumbers = dget(this.options, "showNumbers", true);
+        this.presentAsScale = dget(this.options, "presentAsScale", false);
+        this.randomOrder = dget(this.options, "randomOrder", ! (this.hasCorrect === false || this.presentAsScale));
+        this.timeout = dget(this.options, "timeout", null);
+        this.instructions = dget(this.options, "instructions");
+        this.leftComment = dget(this.options, "leftComment");
+        this.rightComment = dget(this.options, "rightComment");
+        this.autoFirstChar = dget(this.options, "autoFirstChar", false);
+
+        if (! (this.hasCorrect === false))
+            assert(typeof(this.hasCorrect) == "number" && this.hasCorrect < this.answers.length,
+                   "Bad index for correct answer in Question");
+
+        if (this.randomOrder) {
+            this.orderedAnswers = new Array(this.answers.length);
+            for (var i = 0; i < this.answers.length; ++i)
+                this.orderedAnswers[i] = this.answers[i];
+            fisherYates(this.orderedAnswers);
+        }
+        else {
+            this.orderedAnswers = this.answers;
+        }
+
+        this.setFlag = function(correct) {
+            if (! correct) {
+                this.utils.setValueForNextElement("failed", true);
+            }
+        }
+
+        if (this.question) {
+            this.qp = $(document.createElement("p"))
+            .addClass(this.cssPrefix + "question-text")
+            .css('text-align', conf_centerItems ? 'center' : 'left')
+            .append(this.question);
+        }
+        this.xl = $(document.createElement(((! this.presentAsScale) && this.showNumbers) ? "ol" : "ul"))
+            .css('margin-left', "2em").css('padding-left', 0);
+        __Question_answers__ = new Array(this.answers.length);
+
+        if (this.presentAsScale && this.leftComment) {
+            var lcd = $(document.createElement("li"))
+                      .addClass(this.cssPrefix + "scale-comment-box")
+                      .append(this.leftComment);
+            this.xl.append(lcd);
+        }
+		var t2Q = this;
+        for (var i = 0; i < this.orderedAnswers.length; ++i) {
+            var li;
+            li = $(document.createElement("li"));
+            if (this.presentAsScale) {
+                li.addClass(this.cssPrefix + "scale-box");
+                var t = this;
+                 // IE doesn't support :hover for anything other than links, so we
+                 // have to use JS.
+                 (function (li) {
+                     li.mouseover(function () {
+                         li.css('color', "blue")
+                           .css('cursor', 'pointer');
+                     });
+                     li.mouseout(function () {
+                         li.css('color', "blue")
+                           .css('cursor', "default");
+                     });
+                 })(li);
+            }
+            else {
+                li.addClass(this.cssPrefix + "normal-answer");
+            }
+            (function(i) {
+                li.click(function () { 
+					if(t2Q.selected) {
+						$(t2Q.selected).css('color', "black");
+					} 
+					t2Q.selected = this; 
+					__Question_callback__(i); });
+            })(i);
+            var ans = typeof(this.orderedAnswers[i]) == "string" ? this.orderedAnswers[i] : this.orderedAnswers[i][1];
+            var t = this; // 'this' doesn't behave as a lexically scoped variable so can't be
+                          // captured in the closure defined below.
+            var a = $(document.createElement("span")).addClass(this.cssPrefix + "fake-link");
+            __Question_answers__[i] = ans;
+            __Question_callback__ = function (i) {
+				$(t2Q.selected).css('color', "red");
+				
+                var answerTime = new Date().getTime();
+                var ans = __Question_answers__[i];
+                var correct = "NULL";
+                if (! (t.hasCorrect === false)) {
+                    var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                    correct = (ans == correct_ans ? 1 : 0);
+                    t.setFlag(correct);
+                }
+                t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                     [answerField, csv_url_encode(ans)],
+                                     [correctField, correct],
+                                     [timeField, answerTime - t.creationTime]]]);
+            };
+            this.xl.append(li.append(a.append(ans)));
+        }
+        if (this.presentAsScale && this.rightComment) {
+            this.xl.append($(document.createElement("li"))
+                           .addClass(this.cssPrefix + 'scale-comment-box')
+                           .append(this.rightComment));
+        }
+
+        if (! (this.qp === undefined))
+            this.element.append(this.qp);
+
+        // Again, using tables to center because IE sucks.
+        var table = $("<table" + (conf_centerItems ? " align='center'" : "") + ">");
+        var tr = $(document.createElement("tr"));
+        var td = $("<td" + (conf_centerItems ? " align='center'" : "") + ">")
+        if (conf_centerItems)
+            td.attr('align', 'center');
+        this.element.append(table.append(tr.append(td.append(this.xl))));
+
+        if (this.instructions) {
+            this.element.append($(document.createElement("p"))
+                                .addClass(this.cssPrefix + "instructions-text")
+                                .css('text-align', conf_centerItems ? 'center' : 'left')
+                                .text(this.instructions));
+        }
+
+        if (this.timeout) {
+            var t = this;
+            this.utils.setTimeout(function () {
+                var answerTime = new Date().getTime();
+                t.setFlag(false);
+                t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                     [answerField, "NULL"], [correctField, "NULL"],
+                                     [timeField, answerTime - t.creationTime]]]);
+            }, this.timeout);
+        }
+
+        // TODO: A bit of code duplication in this function.
+        var t = this;
+        this.safeBind($(document), 'keydown', function(e) {
+            var code = e.keyCode;
+            var time = new Date().getTime();
+
+            var answerTime = new Date().getTime();
+            if ((! t.presentAsScale) && t.showNumbers &&
+                ((code >= 48 && code <= 57) || (code >= 96 && code <= 105))) {
+                // Convert numeric keypad codes to ordinary keypad codes.
+                var n = code >= 96 ? code - 96 : code - 48;
+                if (n > 0 && n <= t.orderedAnswers.length) {
+                    var ans = typeof(t.orderedAnswers[n-1]) == "string" ? t.orderedAnswers[n-1] : t.orderedAnswers[n-1][1];
+                    var correct = "NULL";
+                    if (! (t.hasCorrect === false)) {
+                        var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                        correct = (correct_ans == ans ? 1 : 0);
+                        t.setFlag(correct);
+                    }
+                    t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                         [answerField, csv_url_encode(ans)],
+                                         [correctField, correct],
+                                         [timeField, answerTime = t.creationTime]]]);
+
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            // Letters (and numbers in the case of scales).
+            else if ((code >= 65 && code <= 90) || (t.presentAsScale && ((code >= 48 && code <= 57) || (code >= 96 && code <= 105)))) {
+                // Convert numeric keypad codes to ordinary keypad codes.
+                code = (code >= 96 && code <= 105) ? code - 48 : code;
+                for (var i = 0; i < t.answers.length; ++i) {
+                    var ans = null;
+                    if (typeof(t.answers[i]) == "string") {
+                        if (t.autoFirstChar && code == t.answers[i].toUpperCase().charCodeAt(0))
+                            ans = t.answers[i];
+                    }
+                    else {
+                        if (code == t.answers[i][0].toUpperCase().charCodeAt(0))
+                            ans = t.answers[i][1];
+                    }
+
+                    if (ans) {
+                        var correct = "NULL";
+                        if (! (t.hasCorrect === false)) {
+                            var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                            correct = (correct_ans == ans ? 1 : 0);
+                            t.setFlag(correct);
+                        }
+                        t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                             [answerField, csv_url_encode(ans)],
+                                             [correctField, correct],
+                                             [timeField, answerTime - t.creationTime]]]);
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        });
+
+        // Store the time when this was first displayed.
+        this.creationTime = new Date().getTime();
+    }
+});
+
+})();
+
+ibex_controller_set_properties("Question", {
+    obligatory: ["as"],
+    htmlDescription: function(opts) {
+        return $(document.createElement("div")).text(opts.q || "");
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+(function () {
+
+var __QuestionB_callback__ = null;
+var __QuestionB_answers__ = null;
+
+$.widget("ui.QuestionB", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var questionField = "Question (NULL if none).";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+
+        this.element.addClass(this.cssPrefix + "question");
+        this.element.addClass("hidden");
+
+
+        this.question = dget(this.options, "q");
+        this.answers = this.options.as;
+
+        this.hasCorrect = dget(this.options, "hasCorrect", false);
+        // hasCorrect is either false, indicating that there is no correct answer,
+        // true, indicating that the first answer is correct, or an integer giving
+        // the index of the correct answer, OR a string giving the correct answer.
+        // Now we change it to either false or an index.
+        if (this.hasCorrect === true)
+            this.hasCorrect = 0;
+        if (typeof(this.hasCorrect) == "string") {
+            var foundIt = false;
+            for (var i = 0; i < this.answers.length; ++i) {
+                if (this.answers[i].toLowerCase() == this.hasCorrect.toLowerCase()) {
+                    this.hasCorrect = i;
+                    foundIt = true;
+                    break;
+                }
+            }
+            assert(foundIt, "Value of 'hasCorrect' option not recognized in Question");
+        }
+        this.showNumbers = dget(this.options, "showNumbers", true);
+        this.presentAsScale = dget(this.options, "presentAsScale", false);
+        this.randomOrder = dget(this.options, "randomOrder", ! (this.hasCorrect === false || this.presentAsScale));
+        this.timeout = dget(this.options, "timeout", null);
+        this.instructions = dget(this.options, "instructions");
+        this.leftComment = dget(this.options, "leftComment");
+        this.rightComment = dget(this.options, "rightComment");
+        this.autoFirstChar = dget(this.options, "autoFirstChar", false);
+
+        if (! (this.hasCorrect === false))
+            assert(typeof(this.hasCorrect) == "number" && this.hasCorrect < this.answers.length,
+                   "Bad index for correct answer in Question");
+
+        if (this.randomOrder) {
+            this.orderedAnswers = new Array(this.answers.length);
+            for (var i = 0; i < this.answers.length; ++i)
+                this.orderedAnswers[i] = this.answers[i];
+            fisherYates(this.orderedAnswers);
+        }
+        else {
+            this.orderedAnswers = this.answers;
+        }
+
+        this.setFlag = function(correct) {
+            if (! correct) {
+                this.utils.setValueForNextElement("failed", true);
+            }
+        }
+
+        if (this.question) {
+            this.qp = $(document.createElement("p"))
+            .addClass(this.cssPrefix + "question-text")
+            .css('text-align', conf_centerItems ? 'center' : 'left')
+            .append(this.question);
+        }
+        this.xl = $(document.createElement(((! this.presentAsScale) && this.showNumbers) ? "ol" : "ul"))
+            .css('margin-left', "2em").css('padding-left', 0);
+        __QuestionB_answers__ = new Array(this.answers.length);
+
+        if (this.presentAsScale && this.leftComment) {
+            var lcd = $(document.createElement("li"))
+                      .addClass(this.cssPrefix + "scale-comment-box")
+                      .append(this.leftComment);
+            this.xl.append(lcd);
+        }
+		t2 = this;
+        for (var i = 0; i < this.orderedAnswers.length; ++i) {
+            var li;
+            li = $(document.createElement("li"));
+            if (this.presentAsScale) {
+                li.addClass(this.cssPrefix + "scale-box");
+                var t = this;
+                 // IE doesn't support :hover for anything other than links, so we
+                 // have to use JS.
+                 (function (li) {
+                     li.mouseover(function () {
+						 if(this != t2.selected) {
+                         li.css('border-color', "black")
+                           .css('cursor', 'pointer');
+					     }
+                     });
+                     li.mouseout(function () {
+						 if(this != t2.selected) {
+                         li.css('border-color', "#9ea4b1")
+                           .css('cursor', "default");
+					   }
+				   });
+                 })(li);
+            }
+            else {
+                li.addClass(this.cssPrefix + "normal-answer");
+            }
+            (function(i) {
+                li.click(function () {
+					if(t2.selected) {
+						$(t2.selected).css('border-color', "#9ea4b1");
+					} 
+					t2.selected = this; 
+					__QuestionB_callback__(i); });
+            })(i);
+            var ans = typeof(this.orderedAnswers[i]) == "string" ? this.orderedAnswers[i] : this.orderedAnswers[i][1];
+            var t = this; // 'this' doesn't behave as a lexically scoped variable so can't be
+                          // captured in the closure defined below.
+            var a = $(document.createElement("span")).addClass(this.cssPrefix + "fake-link");
+            __QuestionB_answers__[i] = ans;
+            __QuestionB_callback__ = function (i) {
+				$(t2.selected).css('border-color', "red");
+                var answerTime = new Date().getTime();
+                var ans = __QuestionB_answers__[i];
+                var correct = "NULL";
+                if (! (t.hasCorrect === false)) {
+                    var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                    correct = (ans == correct_ans ? 1 : 0);
+                    t.setFlag(correct);
+                }
+                t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                     [answerField, csv_url_encode(ans)],
+                                     [correctField, correct],
+                                     [timeField, answerTime - t.creationTime]]]);
+            };
+            this.xl.append(li.append(a.append(ans)));
+        }
+        if (this.presentAsScale && this.rightComment) {
+            this.xl.append($(document.createElement("li"))
+                           .addClass(this.cssPrefix + 'scale-comment-box')
+                           .append(this.rightComment));
+        }
+
+        if (! (this.qp === undefined))
+            this.element.append(this.qp);
+
+        // Again, using tables to center because IE sucks.
+        var table = $("<table" + (conf_centerItems ? " align='center'" : "") + ">");
+        var tr = $(document.createElement("tr"));
+        var td = $("<td" + (conf_centerItems ? " align='center'" : "") + ">")
+        if (conf_centerItems)
+            td.attr('align', 'center');
+        this.element.append(table.append(tr.append(td.append(this.xl))));
+
+        if (this.instructions) {
+            this.element.append($(document.createElement("p"))
+                                .addClass(this.cssPrefix + "instructions-text")
+                                .css('text-align', conf_centerItems ? 'center' : 'left')
+                                .text(this.instructions));
+        }
+
+        if (this.timeout) {
+            var t = this;
+            this.utils.setTimeout(function () {
+                var answerTime = new Date().getTime();
+                t.setFlag(false);
+                t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                     [answerField, "NULL"], [correctField, "NULL"],
+                                     [timeField, answerTime - t.creationTime]]]);
+            }, this.timeout);
+        }
+
+        // TODO: A bit of code duplication in this function.
+        var t = this;
+        this.safeBind($(document), 'keydown', function(e) {
+            var code = e.keyCode;
+            var time = new Date().getTime();
+
+            var answerTime = new Date().getTime();
+            if ((! t.presentAsScale) && t.showNumbers &&
+                ((code >= 48 && code <= 57) || (code >= 96 && code <= 105))) {
+                // Convert numeric keypad codes to ordinary keypad codes.
+                var n = code >= 96 ? code - 96 : code - 48;
+                if (n > 0 && n <= t.orderedAnswers.length) {
+                    var ans = typeof(t.orderedAnswers[n-1]) == "string" ? t.orderedAnswers[n-1] : t.orderedAnswers[n-1][1];
+                    var correct = "NULL";
+                    if (! (t.hasCorrect === false)) {
+                        var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                        correct = (correct_ans == ans ? 1 : 0);
+                        t.setFlag(correct);
+                    }
+                    t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                         [answerField, csv_url_encode(ans)],
+                                         [correctField, correct],
+                                         [timeField, answerTime = t.creationTime]]]);
+
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            // Letters (and numbers in the case of scales).
+            else if ((code >= 65 && code <= 90) || (t.presentAsScale && ((code >= 48 && code <= 57) || (code >= 96 && code <= 105)))) {
+                // Convert numeric keypad codes to ordinary keypad codes.
+                code = (code >= 96 && code <= 105) ? code - 48 : code;
+                for (var i = 0; i < t.answers.length; ++i) {
+                    var ans = null;
+                    if (typeof(t.answers[i]) == "string") {
+                        if (t.autoFirstChar && code == t.answers[i].toUpperCase().charCodeAt(0))
+                            ans = t.answers[i];
+                    }
+                    else {
+                        if (code == t.answers[i][0].toUpperCase().charCodeAt(0))
+                            ans = t.answers[i][1];
+                    }
+
+                    if (ans) {
+                        var correct = "NULL";
+                        if (! (t.hasCorrect === false)) {
+                            var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                            correct = (correct_ans == ans ? 1 : 0);
+                            t.setFlag(correct);
+                        }
+                        t.finishedCallback([[[questionField, t.question ? csv_url_encode(t.question) : "NULL"],
+                                             [answerField, csv_url_encode(ans)],
+                                             [correctField, correct],
+                                             [timeField, answerTime - t.creationTime]]]);
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        });
+
+        // Store the time when this was first displayed.
+        this.creationTime = new Date().getTime();
+    }
+});
+
+})();
+
+ibex_controller_set_properties("QuestionB", {
+    obligatory: ["as"],
+    htmlDescription: function(opts) {
+        return $(document.createElement("div")).text(opts.q || "");
+    }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.QuestionFrame", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+		
+        var questionField = "After you hear the following audio clip, you will have 5 seconds to judge the utterance. Use the mouse to select your choice.  You will then be asked three additional questions. After the initial question, you will be able to listen to the audio again as many times as you like.";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+		
+		var t = this;
+		this.file = this.options.f;
+		var mainDiv = $(document.createElement("div"))
+			.addClass(this.cssPrefix + "div")
+			.appendTo(this.element);
+		
+			
+		var seekInfo = []
+			
+		// var audio = $(document.createElement("audio"))
+		// 	.attr({ src: this.file, controls: true, onplay: "test()"})
+		// 	    	.addClass(this.cssPrefix + "audio")
+		// 	    	.appendTo(mainDiv);
+		//
+		// //http://jsfiddle.net/aarongloege/fzXsT/light/
+		// $(".AudioPresentation-audio")[0].addEventListener("play", function() {
+		// 	console.log("play");
+		// 	console.log(this.currentTime);
+		// 	now = new Date().getTime();
+		// 	console.log(now-creationTime);
+		// 	seekInfo.push({"type": "play", "loc": this.currentTime, "time": now-creationTime});
+		//
+		// 	t.finishedCallback([[["type", "play"],
+		// 						["loc", this.currentTime],
+		// 						["time", now-creationTime]]]);
+		//
+		// 	}
+		// );
+		//
+		// $(".AudioPresentation-audio")[0].addEventListener("pause", function() {
+		// 	console.log("pause");
+		// 	console.log(this.currentTime);
+		// 	now = new Date().getTime();
+		// 	console.log(now-creationTime);
+		// 	seekInfo.push({"type": "pause", "loc": this.currentTime, "time": now-creationTime});
+		//
+		// 	}
+		// );
+		//
+		//
+		// $(".AudioPresentation-audio")[0].addEventListener("seeking", function() {
+		// 	console.log("seek");
+		// 	console.log(this.currentTime);
+		// 	now = new Date().getTime();
+		// 	console.log(now-creationTime);
+		// 	seekInfo.push({"type": "seeking", "loc": this.currentTime, "time": now-creationTime});
+		// 	}
+		// );
+
+		var creationTime = new Date().getTime();
+	var opts = {
+            options:     this.options,
+            triggers:    [3,4,5],
+            children:    [
+			"AudioPresentation", {"f": this.options.f},
+			"FlashSentence", {	s: this.options.s},
+			"QuestionSide", {q: "How natural does the speaker's tone of voice sound?", 
+			            as: ["1", "2", "3", "4", "5"],
+			            presentAsScale: true,
+			            leftComment: "Awkward",//"Very Odd",
+			            rightComment: "Perfectly Normal",
+			            },
+			
+			"Question", {
+ 							q:              "What is the emotion being conveyed here?",
+                            as:             this.options.as,
+                            hasCorrect:     false,
+							followupMessage: null,
+                            presentAsScale: false,
+                            autoFirstChar:  false,
+                            randomOrder:    false,
+                            showNumbers:    false,
+                            timeout:        this.options.timeout,
+                            instructions:   this.options.instructions,
+							target:         this.options.target, 
+                            leftComment:    this.options.leftComment,
+                            rightComment:   this.options.rightComment
+							},
+
+			"QuestionB", {
+ 							q:              "What is the intensity of the speaker's emotion? How expressive do they sound?",
+                            as:             ["1","2","3","4","5"],
+                            hasCorrect:     false,
+							followupMessage: null,
+                            presentAsScale: true,
+                            autoFirstChar:  false,
+                            randomOrder:    false,
+                            showNumbers:    false,
+                            timeout:        this.options.timeout,
+                            instructions:   this.options.instructions,
+							target:         this.options.target, 
+                            leftComment:    "Low, not expressive",
+                            rightComment:   "High, very expressive"
+							},
+							
+			"FreeTextQuestion", {
+							q:              "Does the sentence the speaker uttered explain why they felt the particular emotion? Why or why not?",
+	                        as:             ["1","2","3","4","5"],
+	                        hasCorrect:     false,
+							followupMessage: null,
+	                        presentAsScale: true,
+	                        autoFirstChar:  false,
+	                        randomOrder:    false,
+	                        showNumbers:    false,
+	                        timeout:        this.options.timeout,
+	                        instructions:   this.options.instructions,
+							target:         this.options.target, 
+	                        leftComment:    this.options.leftComment,
+	                        rightComment:   this.options.rightComment
+							}                          						
+						]
+/*,
+            manipulators: [
+                [0, function(div) { div.css('font-size', "larger"); return div; }]
+            ]*/
+        };
+
+        this.element.VBox(opts);
+
+				
+    }
+});
+
+ ibex_controller_set_properties("QuestionFrame", { obligatory: ["f"],
+       htmlDescription:
+           function (opts) {
+              return $(document.createElement("div")).text(opts.f)[0];
+          }
+});
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+(function () {
+
+var __QuestionSide_callback__ = null;
+var __QuestionSides_answers__ = null;
+
+$.widget("ui.QuestionSide", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        var QuestionSideField = "QuestionSide (NULL if none).";
+        var answerField = "Answer";
+        var correctField = "Whether or not answer was correct (NULL if N/A)";
+        var timeField = "Time taken to answer.";
+
+		//http://stackoverflow.com/questions/1191865/code-for-a-simple-javascript-countdown-timer
+		var Countdown = function(options) {
+		  var timer,
+		  instance = this,
+		  seconds = options.seconds || 10,
+		  updateStatus = options.onUpdateStatus || function () {},
+		  counterEnd = options.onCounterEnd || function () {};
+
+		  function decrementCounter() {
+		    updateStatus(seconds);
+		    if (seconds === 0) {
+		      counterEnd();
+		      instance.stop();
+		    }
+		    seconds--;
+		  }
+
+		  this.start = function () {
+		    clearInterval(timer);
+		    timer = 0;
+		    seconds = options.seconds;
+		    timer = setInterval(decrementCounter, 1000);
+		  };
+
+		  this.stop = function () {
+		    clearInterval(timer);
+		  };
+		}
+
+
+        this.element.addClass(this.cssPrefix + "QuestionSide");
+        this.element.addClass("hidden");
+
+        this.QuestionSide = dget(this.options, "q");
+        this.answers = this.options.as;
+
+        this.hasCorrect = dget(this.options, "hasCorrect", false);
+        // hasCorrect is either false, indicating that there is no correct answer,
+        // true, indicating that the first answer is correct, or an integer giving
+        // the index of the correct answer, OR a string giving the correct answer.
+        // Now we change it to either false or an index.
+        if (this.hasCorrect === true)
+            this.hasCorrect = 0;
+        if (typeof(this.hasCorrect) == "string") {
+            var foundIt = false;
+            for (var i = 0; i < this.answers.length; ++i) {
+                if (this.answers[i].toLowerCase() == this.hasCorrect.toLowerCase()) {
+                    this.hasCorrect = i;
+                    foundIt = true;
+                    break;
+                }
+            }
+            assert(foundIt, "Value of 'hasCorrect' option not recognized in QuestionSide");
+        }
+        this.showNumbers = dget(this.options, "showNumbers", true);
+        this.presentAsScale = dget(this.options, "presentAsScale", false);
+        this.randomOrder = dget(this.options, "randomOrder", ! (this.hasCorrect === false || this.presentAsScale));
+        this.timeout = dget(this.options, "timeout", 5);
+        this.instructions = dget(this.options, "instructions");
+        this.leftComment = dget(this.options, "leftComment");
+        this.rightComment = dget(this.options, "rightComment");
+        this.autoFirstChar = dget(this.options, "autoFirstChar", false);
+    this.target = dget(this.options, "target");
+    
+        if (! (this.hasCorrect === false))
+            assert(typeof(this.hasCorrect) == "number" && this.hasCorrect < this.answers.length,
+                   "Bad index for correct answer in QuestionSide");
+
+        if (this.randomOrder) {
+            this.orderedAnswers = new Array(this.answers.length);
+            for (var i = 0; i < this.answers.length; ++i)
+                this.orderedAnswers[i] = this.answers[i];
+            fisherYates(this.orderedAnswers);
+        }
+        else {
+            this.orderedAnswers = this.answers;
+        }
+
+        this.setFlag = function(correct) {
+            if (! correct) {
+                this.utils.setValueForNextElement("failed", true);
+            }
+        }
+
+        if (this.instructions) {
+            this.element.append($(document.createElement("p"))
+                                .addClass(this.cssPrefix + "instructions-text")
+                                .css('text-align', conf_centerItems ? 'center' : 'left')
+                                .text(this.instructions));
+
+      		this.element.append($(document.createElement("p"))
+                .addClass(this.cssPrefix + "target-text")
+                      .css('text-align', conf_centerItems ? 'center' : 'left')
+                      .text(this.target));
+
+        }
+
+
+        if (this.QuestionSide) {
+            this.qp = $(document.createElement("p"))
+            .addClass(this.cssPrefix + "QuestionSide-text")
+            .css('style', conf_centerItems ? 'clear' : 'both' )
+            .append(this.QuestionSide);
+			
+			this.timeoutS = $(document.createElement("span")).addClass(this.cssPrefix + "QuestionSide-timeout").append(this.timeout);
+			this.timeoutD = $(document.createElement("span"))
+            .addClass(this.cssPrefix + "timer")
+            .append("Time left: ");
+			this.qp.append(this.timeoutD);
+			
+			this.timeoutD.append(this.timeoutS);
+        }
+		
+		
+        this.xl = $(document.createElement(((! this.presentAsScale) && this.showNumbers) ? "ol" : "ul"))
+            .css('margin-left', "2em").css('padding-left', 0);
+        __QuestionSide_answers__ = new Array(this.answers.length);
+
+        if (this.presentAsScale && this.leftComment) {
+            var lcd = $(document.createElement("li"))
+                      .addClass(this.cssPrefix + "scale-comment-box")
+                      .append(this.leftComment);
+            this.xl.append(lcd);
+        }
+		
+		var t2 = this;
+		t2.selectedAgain = false;
+
+		t2.myCounter = new Countdown({  
+		    seconds:this.timeout,  // number of seconds to count down
+		    onUpdateStatus: function(sec){
+					$("."+t2.cssPrefix + "QuestionSide-timeout").text(sec);
+			}, // callback for each second
+		    onCounterEnd: function(){} // final action
+		});
+		__timer__ = t2.myCounter;
+		
+        for (var i = 0; i < this.orderedAnswers.length; ++i) {
+            var li;
+            li = $(document.createElement("li"));
+            if (this.presentAsScale) {
+                li.addClass(this.cssPrefix + "scale-box");
+                var t = this;
+                 // IE doesn't support :hover for anything other than links, so we
+                 // have to use JS.
+                 (function (li) {
+                     li.mouseover(function () {
+						 if(!t2.selected) {
+                         li.css('border-color', "black")
+                           .css('cursor', 'pointer');
+					     }
+                     });
+                     li.mouseout(function () {
+						 if(!t2.selected) {
+                         li.css('border-color', "#9ea4b1")
+                           .css('cursor', "default");
+					   }
+                     });
+                 })(li);
+            }
+            else {
+                li.addClass(this.cssPrefix + "normal-answer");
+            }
+            (function(i) {
+                li.click(function () {
+					t2.myCounter.stop();
+					$(t2.timeoutD).addClass("hidden2");
+					t2.selected = this; 
+					__QuestionSide_callback__(i); 
+				}
+			);
+            })(i);
+            var ans = typeof(this.orderedAnswers[i]) == "string" ? this.orderedAnswers[i] : this.orderedAnswers[i][1];
+            var t = this; // 'this' doesn't behave as a lexically scoped variable so can't be
+                          // captured in the closure defined below.
+			
+            var a = $(document.createElement("span")).addClass(this.cssPrefix + "fake-link");
+            __QuestionSide_answers__[i] = ans;
+            __QuestionSide_callback__ = function (i) {
+				if(t2.selectedAgain){
+					return;
+				} else{
+					console.log(i);
+					$(t2.selected).css('border-color', "red");
+					t2.selectedAgain = true;
+					$(".hidden").removeClass("hidden")
+				}
+                var answerTime = new Date().getTime();
+                var ans = __QuestionSide_answers__[i];
+                var correct = "NULL";
+                if (! (t.hasCorrect === false)) {
+                    var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                    correct = (ans == correct_ans ? 1 : 0);
+                    t.setFlag(correct);
+                }
+                t.finishedCallback([[[QuestionSideField, t.QuestionSide ? csv_url_encode(t.QuestionSide) : "NULL"],
+                                     [answerField, csv_url_encode(ans)],
+                                     [correctField, correct],
+                                     [timeField, answerTime - t.creationTime]]]);
+            };
+            this.xl.append(li.append(a.append(ans)));
+        }
+        if (this.presentAsScale && this.rightComment) {
+            this.xl.append($(document.createElement("li"))
+                           .addClass(this.cssPrefix + 'scale-comment-box')
+                           .append(this.rightComment));
+        }
+
+        if (! (this.qp === undefined)) {
+            this.element.append(this.qp);
+//			this.element.append(this.timeoutD);
+		}
+        // Again, using tables to center because IE sucks.
+        var table = $("<table" + (conf_centerItems ? " align='center'" : "") + ">");
+        var tr = $(document.createElement("tr"));
+        var td = $("<td" + (conf_centerItems ? " align='center'" : "") + ">")
+        if (conf_centerItems)
+            td.attr('align', 'center');
+        this.element.append(table.append(tr.append(td.append(this.xl))));
+
+
+        if (this.timeout) {
+            var t = this;
+            this.utils.setTimeout(function () {
+                var answerTime = new Date().getTime();
+                t.setFlag(false);
+                t.finishedCallback([[[QuestionSideField, t.QuestionSide ? csv_url_encode(t.QuestionSide) : "NULL"],
+                                     [answerField, "NULL"], [correctField, "NULL"],
+                                     [timeField, answerTime - t.creationTime]]]);
+            }, this.timeout);
+        }
+
+        // TODO: A bit of code duplication in this function.
+        var t = this;
+        this.safeBind($(document), 'keydown', function(e) {
+            var code = e.keyCode;
+            var time = new Date().getTime();
+
+            var answerTime = new Date().getTime();
+            if ((! t.presentAsScale) && t.showNumbers &&
+                ((code >= 48 && code <= 57) || (code >= 96 && code <= 105))) {
+                // Convert numeric keypad codes to ordinary keypad codes.
+                var n = code >= 96 ? code - 96 : code - 48;
+                if (n > 0 && n <= t.orderedAnswers.length) {
+                    var ans = typeof(t.orderedAnswers[n-1]) == "string" ? t.orderedAnswers[n-1] : t.orderedAnswers[n-1][1];
+                    var correct = "NULL";
+                    if (! (t.hasCorrect === false)) {
+                        var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                        correct = (correct_ans == ans ? 1 : 0);
+                        t.setFlag(correct);
+                    }
+                    t.finishedCallback([[[QuestionSideField, t.QuestionSide ? csv_url_encode(t.QuestionSide) : "NULL"],
+                                         [answerField, csv_url_encode(ans)],
+                                         [correctField, correct],
+                                         [timeField, answerTime = t.creationTime]]]);
+
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            // Letters (and numbers in the case of scales).
+            else if ((code >= 65 && code <= 90) || (t.presentAsScale && ((code >= 48 && code <= 57) || (code >= 96 && code <= 105)))) {
+                // Convert numeric keypad codes to ordinary keypad codes.
+                code = (code >= 96 && code <= 105) ? code - 48 : code;
+                for (var i = 0; i < t.answers.length; ++i) {
+                    var ans = null;
+                    if (typeof(t.answers[i]) == "string") {
+                        if (t.autoFirstChar && code == t.answers[i].toUpperCase().charCodeAt(0))
+                            ans = t.answers[i];
+                    }
+                    else {
+                        if (code == t.answers[i][0].toUpperCase().charCodeAt(0))
+                            ans = t.answers[i][1];
+                    }
+
+                    if (ans) {
+                        var correct = "NULL";
+                        if (! (t.hasCorrect === false)) {
+                            var correct_ans = typeof(t.answers[t.hasCorrect]) == "string" ? t.answers[t.hasCorrect] : t.answers[t.hasCorrect][1];
+                            correct = (correct_ans == ans ? 1 : 0);
+                            t.setFlag(correct);
+                        }
+                        t.finishedCallback([[[QuestionSideField, t.QuestionSide ? csv_url_encode(t.QuestionSide) : "NULL"],
+                                             [answerField, csv_url_encode(ans)],
+                                             [correctField, correct],
+                                             [timeField, answerTime - t.creationTime]]]);
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        });
+
+        // Store the time when this was first displayed.
+        this.creationTime = new Date().getTime();
+		//t2.myCounter.start();
+    }
+});
+
+})();
+
+ibex_controller_set_properties("QuestionSide", {
+    obligatory: ["as"],
+    htmlDescription: function(opts) {
+        return $(document.createElement("div")).text(opts.q || "");
+    }
+});
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.Separator", {
+    _init: function () {
+        this.cssPrefix = this.options._cssPrefix;
+        this.utils = this.options._utils;
+        this.finishedCallback = this.options._finishedCallback;
+
+        this.ignoreFailure = dget(this.options, "ignoreFailure", false);
+        this.style = this.ignoreFailure ? "normal" : (this.utils.getValueFromPreviousElement("failed") ? "error" : "normal");
+        var x = this.utils.getValueFromPreviousElement("style");
+        if (x) this.style = x;
+        assert(this.style == "normal" || this.style == "error", "'style' property of Separator must either be 'normal' or 'error'");
+
+        this.transfer = dget(this.options, "transfer", "keypress");
+        assert(this.transfer == "keypress" || typeof(this.transfer) == "number",
+               "Value of 'transfer' option of Separator must either be the string 'keypress' or a number");
+
+        var normal_message = dget(this.options, "normalMessage", "Press any key to continue.");
+        var x = this.utils.getValueFromPreviousElement("normalMessage");
+        if (x) normal_message = x;
+
+        var error_message = dget(this.options, "errorMessage", "Wrong. Press any key to continue.");
+        var x = this.utils.getValueFromPreviousElement("errorMessage");
+        if (x) error_message = x;
+
+        var p = $(document.createElement("p"));
+        this.element.append(p);
+        if (this.style == "error") {
+            this.element.addClass(this.cssPrefix + "next-item-failure-message");
+            p.text(error_message);
+        }
+        else {
+            this.element.addClass(this.cssPrefix + "next-item-message");
+            p.text(normal_message);
+        }
+
+        if (this.transfer == "keypress") {
+	    var t = this;
+	    this.safeBind($(document), 'keydown', function () {
+		t.finishedCallback(null);
+		return false;
+	    });
+        }
+        else {
+            var t = this;
+            this.utils.setTimeout(function () {
+                t.finishedCallback(null);
+            }, this.transfer);
+        }
+    }
+});
+
+ibex_controller_set_properties("Separator", {
+    countsForProgressBar: false,
+    htmlDescription: function (opts) {
+        return $(document.createElement("div")).text(opts.normalMessage)[0];
+    }
+});
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.VBox", {
+    _init: function () {
+        this.cssPrefix = this.options.options._cssPrefix;
+        this.utils = this.options.options._utils;
+        this.finishedCallback = this.options.options._finishedCallback;
+        this.controllerDefaults = this.options.options._controllerDefaults;
+        this.utilsClass = this.options.options._utilsClass;
+
+        this.children = this.options.children;
+        this.triggers = this.options.triggers;
+        this.padding = dget(this.options, "padding", "2em");
+
+        assert_is_arraylike(this.children, "The 'children' option of VBox must be an array");
+        assert(this.children.length % 2 == 0, "The 'children' array for VBox must contain an even number of elements");
+
+        assert_is_arraylike(this.triggers, "The 'triggers' option of VBox must be an array");
+        assert(this.triggers.length > 0, "The 'triggers' array for VBox must be an array of length > 0");
+
+        var t = this;
+        $.each(this.triggers, function (_, tr) {
+            assert(typeof(tr) == "number", "The 'triggers' array for VBox must be an array of integers");
+            assert(tr >= 0 && tr < t.children.length / 2,
+                   "Numbers in the 'triggers' array must be indices into the 'children' array starting from 0");
+        });
+
+        this.indicesAndResultsOfThingsThatHaveFinished = [];
+//        this.childInstances = [];
+        this.childUtils = [];
+
+        for (var i = 0; i < this.children.length; i += 2) {
+            var controllerClass = this.children[i];
+            var childOptions = this.children[i + 1];
+            childOptions = merge_dicts(this.controllerDefaults[controllerClass], childOptions);
+
+            var d = $(document.createElement("p")).css('clear', 'both');
+
+            // Call a manipulator if one was supplied.
+            if (! (this.options.manipulators === undefined)) {
+                for (var j = 0; j < this.options.manipulators.length; ++j) {
+                    if (this.options.manipulators[j][0] == (i / 2))
+                        d = this.options.manipulators[j][1](d);
+                }
+            }
+
+            // Add padding if requested.
+            var dd = null;
+            if (this.padding && i > 0) {
+                dd = $(document.createElement("div"))
+                     .css('margin-top', this.padding)
+                     .css('margin-bottom', 0)
+                     .append(d);
+            }
+
+            // Wrap in a table if we're centering things.
+            var ddd = null;
+            if (conf_centerItems) {
+                ddd = $("<table align='center'>");
+                var tr = $(document.createElement("tr"));
+                var td = $(document.createElement("td"));
+                ddd.append(tr.append(td.append(dd ? dd : d)));
+            }
+
+            // Add the actual child.
+            var ac = ddd ? ddd : (dd ? dd : d);
+            this.element.append(ac);    
+
+            var u = new this.utilsClass(this.utils.getValuesFromPreviousElement());
+            this.childUtils.push(u);
+            (function(i) {
+                u.setResults = function(results) {
+                    t.indicesAndResultsOfThingsThatHaveFinished.push([i, results]);
+                };
+            })(i);
+
+            var t = this;
+            var l = this.childUtils.length - 1;
+            // Get around JavaScript's silly closure capture behavior (deriving
+            // from weird variable scoping rules).
+            // See http://calculist.blogspot.com/2005/12/gotcha-gotcha.html
+            (function(l) {
+                childOptions._finishedCallback = function (r) { t.myFinishedCallback(l, r); };
+                childOptions._cssPrefix = ibex_controller_name_to_css_prefix(controllerClass);
+                childOptions._utils = u;
+                addSafeBindMethodPair(controllerClass);
+                d[controllerClass](childOptions);
+
+/*                t.childInstances.push(
+                    new controllerClass(
+                        d,
+                        childOptions,
+                        function (r) { t.myFinishedCallback(l, r); },
+                        u
+                    )
+                );*/
+            })(l);
+        }
+    },
+
+    myFinishedCallback: function(index, results) {
+        this.childUtils[index].gc();
+        this.indicesAndResultsOfThingsThatHaveFinished.push([index, results]);
+
+        var satisfied = true;
+        for (var i = 0; i < this.triggers.length; ++i) {
+            var foundIt = false;
+            for (var j = 0; j < this.indicesAndResultsOfThingsThatHaveFinished.length; ++j) {
+                if (this.indicesAndResultsOfThingsThatHaveFinished[j][0] == this.triggers[i]) {
+                    foundIt = true;
+                    break;
+                }
+            }
+            if (! foundIt) {
+                satisfied = false;
+                break;
+            }
+        }
+
+        if (satisfied) {
+            // Merge values for next element.
+            var merged = merge_list_of_dicts($.map(this.childUtils,
+                                             function (x) { return x.valuesForNextElement; }));
+            this.utils.valuesForNextElement = merged;
+
+            this.finishedCallback(this.concatResults(this.indicesAndResultsOfThingsThatHaveFinished));
+        }
+    },
+
+    concatResults: function(iar) {
+        iar = iar.sort(function(x, y) { return x[0] - y[0]; });
+        var res = [];
+        for (var i = 0; i < iar.length; ++i) {
+            for (var j = 0; j < iar[i][1].length; ++j) {
+                var line = [];
+                for (var k = 0; k < iar[i][1][j].length; ++k)
+                    line.push(iar[i][1][j][k]);
+                res.push(line);
+            }
+        }
+        return res;
+    }
+});
+
+ibex_controller_set_properties("VBox", { obligatory: ["children", "triggers"] });
+
+
+/* This software is licensed under a BSD license; see the LICENSE file for details. */
+
+$.widget("ui.VBoxB", {
+    _init: function () {
+        this.cssPrefix = this.options.options._cssPrefix;
+        this.utils = this.options.options._utils;
+        this.finishedCallback = this.options.options._finishedCallback;
+        this.controllerDefaults = this.options.options._controllerDefaults;
+        this.utilsClass = this.options.options._utilsClass;
+
+        this.children = this.options.children;
+        this.triggers = this.options.triggers;
+        this.padding = dget(this.options, "padding", "2em");
+
+        assert_is_arraylike(this.children, "The 'children' option of VBoxB must be an array");
+        assert(this.children.length % 2 == 0, "The 'children' array for VBoxB must contain an even number of elements");
+
+        assert_is_arraylike(this.triggers, "The 'triggers' option of VBoxB must be an array");
+        assert(this.triggers.length > 0, "The 'triggers' array for VBoxB must be an array of length > 0");
+
+        var t = this;
+        $.each(this.triggers, function (_, tr) {
+            assert(typeof(tr) == "number", "The 'triggers' array for VBoxB must be an array of integers");
+            assert(tr >= 0 && tr < t.children.length / 2,
+                   "Numbers in the 'triggers' array must be indices into the 'children' array starting from 0");
+        });
+
+        this.indicesAndResultsOfThingsThatHaveFinished = [];
+//        this.childInstances = [];
+        this.childUtils = [];
+
+    var remainingOptions = {"_cssPrefix": this.cssPrefix,
+                "_utils": this.utils,
+                "_finishedCallback": this.finishedCallback,
+                "_controllerDefaults": this.controllerDefaults,
+                "_utilsClass": this.utilsClass,
+    };
+
+        for (var i = 0; i < this.children.length; i += 2) {
+            var controllerClass = this.children[i];
+            var childOptions = this.children[i + 1];
+            childOptions = merge_dicts(this.controllerDefaults[controllerClass], childOptions);
+      childOptions = merge_dicts(childOptions, remainingOptions);
+
+            var d = $(document.createElement("p")).css('clear', 'both');
+
+            // Call a manipulator if one was supplied.
+            if (! (this.options.manipulators === undefined)) {
+                for (var j = 0; j < this.options.manipulators.length; ++j) {
+                    if (this.options.manipulators[j][0] == (i / 2))
+                        d = this.options.manipulators[j][1](d);
+                }
+            }
+
+            // Add padding if requested.
+            var dd = null;
+            if (this.padding && i > 0) {
+                dd = $(document.createElement("div"))
+                     .css('margin-top', this.padding)
+                     .css('margin-bottom', 0)
+                     .append(d);
+            }
+
+            // Wrap in a table if we're centering things.
+            var ddd = null;
+            if (conf_centerItems) {
+                ddd = $("<table align='center'>");
+                var tr = $(document.createElement("tr"));
+                var td = $(document.createElement("td"));
+                ddd.append(tr.append(td.append(dd ? dd : d)));
+            }
+
+            // Add the actual child.
+            var ac = ddd ? ddd : (dd ? dd : d);
+            this.element.append(ac);    
+
+            var u = new this.utilsClass(this.utils.getValuesFromPreviousElement());
+            this.childUtils.push(u);
+            (function(i) {
+                u.setResults = function(results) {
+                    t.indicesAndResultsOfThingsThatHaveFinished.push([i, results]);
+                };
+            })(i);
+
+            var t = this;
+            var l = this.childUtils.length - 1;
+            // Get around JavaScript's silly closure capture behavior (deriving
+            // from weird variable scoping rules).
+            // See http://calculist.blogspot.com/2005/12/gotcha-gotcha.html
+            (function(l) {
+                childOptions._finishedCallback = function (r) { t.myFinishedCallback(l, r); };
+                childOptions._cssPrefix = ibex_controller_name_to_css_prefix(controllerClass);
+                childOptions._utils = u;
+                addSafeBindMethodPair(controllerClass);
+                d[controllerClass](childOptions);
+
+/*                t.childInstances.push(
+                    new controllerClass(
+                        d,
+                        childOptions,
+                        function (r) { t.myFinishedCallback(l, r); },
+                        u
+                    )
+                );*/
+            })(l);
+        }
+    },
+
+    myFinishedCallback: function(index, results) {
+        this.childUtils[index].gc();
+        this.indicesAndResultsOfThingsThatHaveFinished.push([index, results]);
+
+        var satisfied = true;
+        for (var i = 0; i < this.triggers.length; ++i) {
+            var foundIt = false;
+            for (var j = 0; j < this.indicesAndResultsOfThingsThatHaveFinished.length; ++j) {
+                if (this.indicesAndResultsOfThingsThatHaveFinished[j][0] == this.triggers[i]) {
+                    foundIt = true;
+                    break;
+                }
+            }
+            if (! foundIt) {
+                satisfied = false;
+                break;
+            }
+        }
+
+        if (satisfied) {
+            // Merge values for next element.
+            var merged = merge_list_of_dicts($.map(this.childUtils,
+                                             function (x) { return x.valuesForNextElement; }));
+            this.utils.valuesForNextElement = merged;
+
+            this.finishedCallback(this.concatResults(this.indicesAndResultsOfThingsThatHaveFinished));
+        }
+    },
+
+    concatResults: function(iar) {
+        iar = iar.sort(function(x, y) { return x[0] - y[0]; });
+        var res = [];
+        for (var i = 0; i < iar.length; ++i) {
+            for (var j = 0; j < iar[i][1].length; ++j) {
+                var line = [];
+                for (var k = 0; k < iar[i][1][j].length; ++k)
+                    line.push(iar[i][1][j][k]);
+                res.push(line);
+            }
+        }
+        return res;
+    }
+});
+
+ibex_controller_set_properties("VBoxB", { obligatory: ["children", "triggers"] });
+

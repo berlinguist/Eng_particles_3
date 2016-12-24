@@ -1,0 +1,889 @@
+ #
+# Results on Friday December 23 2016 19:15:19 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 53
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482520519,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,play,0,3126
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,pause,2.257959,5452
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,God I put the toolbox in the shed
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,34
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,How natural does the speaker's tone of voice sound?,4,NULL,10762
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,What is the emotion being conveyed here?,Anger -- annoyed or irritated at an event or situation,NULL,33080
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,How expressive is the speaker's emotion here?,4,NULL,39908
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482520519,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,58,0,pract,NULL,nnnnnnnnnnnnnnn,49171
+#
+# Results on Friday December 23 2016 19:20:17 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 54
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482520818,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,play,0,1219
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,pause,1.903243,3211
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,God I'm on the phone
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,13
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,How natural does the speaker's tone of voice sound?,3,NULL,3968
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,What is the emotion being conveyed here?,Confusion -- trying to make sense of what is going on,NULL,4884
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,What is the emotion being conveyed here?,Excitement -- something positive has happened,NULL,6388
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,How expressive is the speaker's emotion here?,2,NULL,7237
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482520818,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,59,0,pract,NULL,nnnnnnnnnnnnnn,13382
+#
+# Results on Friday December 23 2016 20:58:39 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 55
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482526719,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,play,0,55538
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. type.
+# 9. loc.
+# 10. time.
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,play,0.000873,3384
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,pause,1.870091,5312
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,seeking,0,55538
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,pause,1.870091,58533
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: QuestionSide (NULL if none).
+#     Col. 9: Answer.
+#     Col. 10: Whether or not answer was correct (NULL if N/A).
+#     Col. 11: Time taken to answer.
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,God she's never done that before
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,32
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: QuestionSide (NULL if none).
+#     Col. 9: Answer.
+#     Col. 10: Whether or not answer was correct (NULL if N/A).
+#     Col. 11: Time taken to answer.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Question (NULL if none).
+#     Col. 9: Answer.
+#     Col. 10: Whether or not answer was correct (NULL if N/A).
+#     Col. 11: Time taken to answer.
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,How natural does the speaker's tone of voice sound?,2,NULL,69137
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,What is the emotion being conveyed here?,Neutral -- no obvious emotion,NULL,71093
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Question (NULL if none).
+#     Col. 9: Answer.
+#     Col. 10: Whether or not answer was correct (NULL if N/A).
+#     Col. 11: Time taken to answer.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: scenario.
+#     Col. 9: response time.
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,How expressive is the speaker's emotion here?,1,NULL,72480
+1482526719,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,7,0,pract2,NULL,nnnnnnnnnnnnnn,79388
+#
+# Results on Friday December 23 2016 20:59:33 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 56
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482526773,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,play,0,2878
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,pause,1.816735,4781
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,God a package arrived for you
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,13
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,How natural does the speaker's tone of voice sound?,5,NULL,36910
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,What is the emotion being conveyed here?,Excitement -- something positive has happened,NULL,38073
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,How expressive is the speaker's emotion here?,1,NULL,40180
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482526773,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,62,0,pract,NULL,nnnnnnnn,44446
+#
+# Results on Friday December 23 2016 21:15:21 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 57
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482527722,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,play,0,279342
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,pause,1.858549,281874
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,Huh a package arrived for you
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,12
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,How natural does the speaker's tone of voice sound?,5,NULL,349941
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,What is the emotion being conveyed here?,Excitement -- something positive has happened,NULL,351502
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,How expressive is the speaker's emotion here?,2,NULL,354716
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482527722,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,122,0,huh_exclam,NULL,nnnnnnn,401402
+#
+# Results on Friday December 23 2016 21:17:35 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 58
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482527855,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,play,0,1961
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,pause,2.042426,4095
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,Oh you can't be serious right now
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,11
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,How natural does the speaker's tone of voice sound?,5,NULL,6558
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,What is the emotion being conveyed here?,Anger -- annoyed or irritated at an event or situation,NULL,7445
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,How expressive is the speaker's emotion here?,3,NULL,9297
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482527855,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,135,0,oh_exclam,NULL,sfmfmfmfmfmfm,13320
+#
+# Results on Friday December 23 2016 21:41:25 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 59
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482529286,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,play,0,1461
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,pause,2.653129,4197
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,What there are a lot of cakes to choose from
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,12
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,How natural does the speaker's tone of voice sound?,5,NULL,5659
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,What is the emotion being conveyed here?,Excitement -- something positive has happened,NULL,8253
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,What is the intensity of the speaker's emotion?,1,NULL,9626
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482529286,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,nnnnnnnnn,14443
+#
+# Results on Friday December 23 2016 21:41:34 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 59
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482529294,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,play,0,1461
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,pause,2.653129,4197
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,What there are a lot of cakes to choose from
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,12
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,How natural does the speaker's tone of voice sound?,5,NULL,5659
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,What is the emotion being conveyed here?,Excitement -- something positive has happened,NULL,8253
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,What is the intensity of the speaker's emotion?,1,NULL,9626
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482529294,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,148,0,what_exclam,NULL,nnnnnnnnn,14443
+#
+# Results on Friday December 23 2016 21:44:56 UTC.
+# USER AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+# Design number was non-random = 61
+#
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Field name.
+#     Col. 9: Field value.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+1482529496,fa36676dfa54f6f8302aba2e301687f9,Form,2,0,intro,NULL,Native Speaker,yes
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,play,0,2746
+# The lines below this comment are in groups of 2.
+# The formats of the lines in each of these groups are as follows:
+#
+# Line 1:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: type.
+#     Col. 9: loc.
+#     Col. 10: time.
+# Line 2:
+#     Col. 1: Time results were received.
+#     Col. 2: MD5 hash of participant's IP address.
+#     Col. 3: Controller name.
+#     Col. 4: Item number.
+#     Col. 5: Element number.
+#     Col. 6: Type.
+#     Col. 7: Group.
+#     Col. 8: Sentence (or sentence MD5).
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,pause,2.667211,5508
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,Huh I thought apples were in the sunflower family
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. QuestionSide (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,How natural does the speaker's tone of voice sound?,NULL,NULL,26
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,How natural does the speaker's tone of voice sound?,5,NULL,6911
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. Question (NULL if none).
+# 9. Answer.
+# 10. Whether or not answer was correct (NULL if N/A).
+# 11. Time taken to answer.
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,What is the emotion being conveyed here?,Excitement -- something positive has happened,NULL,8013
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,What is the intensity of the speaker's emotion?,3,NULL,9230
+# Columns below this comment are as follows:
+# 1. Time results were received.
+# 2. MD5 hash of participant's IP address.
+# 3. Controller name.
+# 4. Item number.
+# 5. Element number.
+# 6. Type.
+# 7. Group.
+# 8. scenario.
+# 9. response time.
+1482529496,fa36676dfa54f6f8302aba2e301687f9,QuestionFrame,18,0,huh_conf,NULL,nnnnnnn,13767
