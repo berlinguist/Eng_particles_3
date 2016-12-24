@@ -2,7 +2,7 @@
 
 //****PUT "intro" back into the seq vars for actual experiment****
 
-var shuffleSequence = seq("intro", "first", chooseModN(3,modify("god_conf", "huh_conf", "oh_conf", "what_conf", "god_decl", "huh_decl", "oh_decl", "what_decl", "god_exclam", "huh_exclam", "oh_exclam", "what_exclam" )), "sr", "final");
+var shuffleSequence = seq("intro", "first", chooseModN(3,modify("god_conf", "huh_conf", "oh_conf", "what_conf", "god_decl", "huh_decl")), chooseModN(3,modify("oh_decl", "what_decl", "god_exclam", "huh_exclam", "oh_exclam", "what_exclam" )), "sr", "final");
 //var shuffleSequence = seq("intro", "first", sepWith("sep", "pract"), "sr", "final");
 
 //var practiceItemTypes = ["practice"];
